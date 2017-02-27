@@ -7,9 +7,7 @@
 //
 
 #include <GLUT/GLUT.h>
-
-//#include "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.12.sdk/System/Library/Frameworks/GLKit.framework/Headers/GLKMatrix4.h"
-
+#include <stdio.h>
 
 void init (void)
 {
@@ -32,6 +30,19 @@ void lineSegment (void)
     glFlush();
 }
 
+GLenum errorCheck()
+{
+    GLenum code;
+    const GLubyte *string;
+    code = glGetError();
+    if(code != GL_NO_ERROR)
+    {
+        string = gluErrorString(code);
+        fprintf(stderr, "OpenGL error : %s\n", string);
+    }
+    return code;
+}
+
 int main(int argc, char ** argv)
 {
     glutInit(&argc, argv);
@@ -42,6 +53,7 @@ int main(int argc, char ** argv)
     
     init();
     glutDisplayFunc(lineSegment);
+    errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
     return 1;
