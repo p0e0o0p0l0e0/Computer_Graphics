@@ -11,7 +11,7 @@
 
 void init (void)
 {
-    glClearColor(1.0, 1.0, 1.0, 0.0);
+    glClearColor(0.0, 0.0, 0.0, 0.0);
     
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(0.0, 200.0, 0.0, 150.0);
@@ -25,6 +25,18 @@ void lineSegment (void)
     glBegin(GL_LINES);
     glVertex2i(180, 15);
     glVertex2i(10, 145);
+    glEnd();
+    
+    glFlush();
+}
+
+void pointSegment (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(1.0, 0.4, 0.2);
+    glBegin(GL_POINTS);
+    glVertex2i(100, 100);
     glEnd();
     
     glFlush();
@@ -52,7 +64,8 @@ int main(int argc, char ** argv)
     glutCreateWindow("An  Example OpenGL Program");
     
     init();
-    glutDisplayFunc(lineSegment);
+//    glutDisplayFunc(lineSegment);
+    glutDisplayFunc(pointSegment);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
