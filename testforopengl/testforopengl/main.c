@@ -22,9 +22,14 @@ void lineSegment (void)
     glClear (GL_COLOR_BUFFER_BIT);
     
     glColor3f(0.0, 0.4, 0.2);
-    glBegin(GL_LINES);
-    glVertex2i(180, 15);
-    glVertex2i(10, 145);
+//    glBegin(GL_LINES);
+//    glBegin(GL_LINE_STRIP);
+    glBegin(GL_LINE_LOOP);
+    glVertex2i(190, 100);
+    glVertex2i(20, 10);
+    glVertex2i(100, 145);
+    glVertex2i(150, 10);
+    glVertex2i(10, 100);
     glEnd();
     
     glFlush();
@@ -64,8 +69,8 @@ int main(int argc, char ** argv)
     glutCreateWindow("An  Example OpenGL Program");
     
     init();
-//    glutDisplayFunc(lineSegment);
-    glutDisplayFunc(pointSegment);
+    glutDisplayFunc(lineSegment);
+//    glutDisplayFunc(pointSegment);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
