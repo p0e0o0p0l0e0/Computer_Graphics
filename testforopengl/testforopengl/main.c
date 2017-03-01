@@ -17,6 +17,35 @@ void init (void)
     gluOrtho2D(0.0, 200.0, 0.0, 150.0);
 }
 
+void polygonSegment (void)
+{
+    glClear (GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(0.0, 0.4, 0.2);
+    
+//    glBegin(GL_POLYGON);          // 六个点依次连接为多边形
+//    glBegin(GL_TRIANGLES);        // 3个点为一组连成一个三角形
+    glBegin(GL_TRIANGLE_FAN);     // 第一个为顶点，连续三角形组成的扇形多边形
+    glVertex2i(10, 30);
+    glVertex2i(20, 10);
+    glVertex2i(40, 10);
+    glVertex2i(50, 30);
+    glVertex2i(40, 50);
+    glVertex2i(20, 50);
+    glEnd();
+    
+//    glBegin(GL_TRIANGLE_STRIP);   // 每3个点合并为一个三角形
+//    glVertex2i(10, 30);
+//    glVertex2i(20, 10);
+//    glVertex2i(20, 50);
+//    glVertex2i(40, 10);
+//    glVertex2i(40, 50);
+//    glVertex2i(50, 30);
+//    glEnd();
+    
+    glFlush();
+}
+
 void rectSegment (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -83,7 +112,8 @@ int main(int argc, char ** argv)
     init();
 //    glutDisplayFunc(lineSegment);
 //    glutDisplayFunc(pointSegment);
-    glutDisplayFunc(rectSegment);
+//    glutDisplayFunc(rectSegment);
+    glutDisplayFunc(polygonSegment);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
