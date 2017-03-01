@@ -17,6 +17,18 @@ void init (void)
     gluOrtho2D(0.0, 200.0, 0.0, 150.0);
 }
 
+void rectSegment (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(1, 1, 0);
+    int vectex1 [] = {100, 10};
+    int vectex2 [] = {10, 50};
+    glRectiv(vectex1, vectex2);
+    
+    glFlush();
+}
+
 void lineSegment (void)
 {
     glClear (GL_COLOR_BUFFER_BIT);
@@ -69,8 +81,9 @@ int main(int argc, char ** argv)
     glutCreateWindow("An  Example OpenGL Program");
     
     init();
-    glutDisplayFunc(lineSegment);
+//    glutDisplayFunc(lineSegment);
 //    glutDisplayFunc(pointSegment);
+    glutDisplayFunc(rectSegment);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
