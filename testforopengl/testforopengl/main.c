@@ -170,6 +170,20 @@ void cubeSegment (void)
     glFlush();
 }
 
+void bitmapSegment (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(0, 1, 1);
+    
+    GLubyte bitShape [20] = {0x1c, 0x00, 0x1c, 0x00, 0x1c, 0x00, 0x1c, 0x00, 0xff, 0x80, 0x7f, 0x00, 0x3e, 0x00, 0x1c, 0x00, 0x08, 0x00};
+    glPixelStorei(GL_UNPACK_ALIGNMENT, 1); // set pixel storage mode.
+    glRasterPos2i(100, 75);
+    glBitmap(9, 10, 0, 0, 20, 15, bitShape);
+    
+    glFlush();
+}
+
 GLenum errorCheck()
 {
     GLenum code;
@@ -197,7 +211,8 @@ int main(int argc, char ** argv)
 //    glutDisplayFunc(rectSegment);
 //    glutDisplayFunc(polygonSegment);
 //    glutDisplayFunc(quadSegment);
-    glutDisplayFunc(cubeSegment);
+//    glutDisplayFunc(cubeSegment);
+    glutDisplayFunc(bitmapSegment);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
