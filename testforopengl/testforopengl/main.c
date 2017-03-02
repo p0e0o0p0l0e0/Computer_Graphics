@@ -23,8 +23,8 @@ void polygonSegment (void)
     
     glColor3f(0.0, 0.4, 0.2);
     
-//    glBegin(GL_POLYGON);          // 六个点依次连接为多边形
-//    glBegin(GL_TRIANGLES);        // 3个点为一组连成一个三角形
+//    glBegin(GL_POLYGON);          // 6个顶点依次连接为多边形
+//    glBegin(GL_TRIANGLES);        // 3个顶点为一组连成一个三角形
     glBegin(GL_TRIANGLE_FAN);     // 第一个为顶点，连续三角形组成的扇形多边形
     glVertex2i(10, 30);
     glVertex2i(20, 10);
@@ -34,7 +34,7 @@ void polygonSegment (void)
     glVertex2i(20, 50);
     glEnd();
     
-//    glBegin(GL_TRIANGLE_STRIP);   // 每3个点合并为一个三角形
+//    glBegin(GL_TRIANGLE_STRIP);   // 每3个顶点合并为一个三角形
 //    glVertex2i(10, 30);
 //    glVertex2i(20, 10);
 //    glVertex2i(20, 50);
@@ -42,6 +42,38 @@ void polygonSegment (void)
 //    glVertex2i(40, 50);
 //    glVertex2i(50, 30);
 //    glEnd();
+    
+    glFlush();
+}
+
+void quadSegment (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(0, 0, 1);
+//    glBegin(GL_QUADS);      // 每4个顶点为一组，构成四边形
+//    glVertex2i(5, 40);
+//    glVertex2i(10, 10);
+//    glVertex2i(20, 10);
+//    glVertex2i(20, 25);
+//    glVertex2i(25, 20);
+//    glVertex2i(23, 15);
+//    glVertex2i(40, 10);
+//    glVertex2i(40, 40);
+//    glEnd();
+    
+    glBegin(GL_QUAD_STRIP);      // 先指定2个顶点，之后每个四边形再指定2个顶点
+    glVertex2i(5, 40);
+    glVertex2i(10, 10);
+    glVertex2i(20, 28);
+    glVertex2i(20, 10);
+    glColor3f(0, 1, 1);
+    glVertex2i(25, 27);
+    glVertex2i(23, 12);
+    glColor3f(0, 1, 0);
+    glVertex2i(40, 40);
+    glVertex2i(40, 10);
+    glEnd();
     
     glFlush();
 }
@@ -113,7 +145,8 @@ int main(int argc, char ** argv)
 //    glutDisplayFunc(lineSegment);
 //    glutDisplayFunc(pointSegment);
 //    glutDisplayFunc(rectSegment);
-    glutDisplayFunc(polygonSegment);
+//    glutDisplayFunc(polygonSegment);
+    glutDisplayFunc(quadSegment);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
