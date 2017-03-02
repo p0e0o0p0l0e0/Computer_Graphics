@@ -120,6 +120,50 @@ void pointSegment (void)
     glFlush();
 }
 
+typedef GLint vertex3 [3];
+vertex3 pt [8] = {{0, 0, 0}, {0, 100, 0}, {100, 0, 0}, {100, 100, 0}, {0, 0, 100}, {0, 100, 100}, {100, 0, 100}, {100, 100, 100}};
+
+void quad (GLint n1, GLint n2, GLint n3, GLint n4)
+{
+    glBegin(GL_QUADS);
+    glVertex3iv(pt [n1]);
+    glVertex3iv(pt [n2]);
+    glVertex3iv(pt [n3]);
+    glVertex3iv(pt [n4]);
+    glEnd();
+}
+
+void cube (void)
+{
+    
+    glColor3f(1, 0, 0); // R
+    quad(6, 2, 3, 7);
+    
+    glColor3f(0, 1, 0); // G
+    quad(5, 1, 0, 4);
+    
+    glColor3f(0, 0, 1); // B
+    quad(7, 3, 1, 5);
+    
+    glColor3f(1, 0, 1); // P
+    quad(4, 0, 2, 6);
+    
+    glColor3f(1, 1, 0); // Y
+    quad(2, 0, 1, 3);
+    
+    glColor3f(0, 1, 1); // Q
+    quad(7, 5, 4, 6);
+}
+
+void cubeSegment (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    cube();
+    
+    glFlush();
+}
+
 GLenum errorCheck()
 {
     GLenum code;
@@ -146,7 +190,8 @@ int main(int argc, char ** argv)
 //    glutDisplayFunc(pointSegment);
 //    glutDisplayFunc(rectSegment);
 //    glutDisplayFunc(polygonSegment);
-    glutDisplayFunc(quadSegment);
+//    glutDisplayFunc(quadSegment);
+    glutDisplayFunc(cubeSegment);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
