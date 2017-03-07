@@ -8,6 +8,7 @@
 
 #include <GLUT/GLUT.h>
 #include <stdio.h>
+#include <math.h>
 
 void init (void)
 {
@@ -184,7 +185,7 @@ void bitmapSegment (void)
     glFlush();
 }
 
-void glCharacter()
+void glCharacterSegment()
 {
     glClear(GL_COLOR_BUFFER_BIT);
     
@@ -197,6 +198,34 @@ void glCharacter()
         glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text[i]); // bitmap font
 //        glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]); // stroke font
     }
+    
+    glFlush();
+}
+
+void hexagonSegment()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1, 0, 0);
+    
+    
+    const double TWO_PI = 6.281853;
+    GLdouble theta;
+    GLint x, y, k;
+    
+    GLuint regHex = glGenLists(1);
+    glNewList(regHex, GL_COMPILE);
+    glBegin(GL_POLYGON);
+    for(k = 0; k < 6; k++)
+    {
+        theta = TWO_PI * k / 6.0;
+        x = 50 + 20 * cos(theta);
+        y = 50 + 20 * sin(theta);
+        glVertex2i(x, y);
+    }
+    glEnd();
+    glEndList();
+    
+    glCallList(regHex);
     
     glFlush();
 }
@@ -230,7 +259,8 @@ int main(int argc, char ** argv)
 //    glutDisplayFunc(quadSegment);
 //    glutDisplayFunc(cubeSegment);
 //    glutDisplayFunc(bitmapSegment);
-    glutDisplayFunc(glCharacter);
+//    glutDisplayFunc(glCharacterSegment);
+    glutDisplayFunc(hexagonSegment);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
