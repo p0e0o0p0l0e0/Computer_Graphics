@@ -184,6 +184,23 @@ void bitmapSegment (void)
     glFlush();
 }
 
+void glCharacter()
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(1, 1, 0);
+    
+    glRasterPos2i(30, 50);
+    char text [36] = "abcdefghijklmnopqrstuvwxyz1234567890";
+    for(int i = 0; i < 36; i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text[i]); // bitmap font
+//        glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]); // stroke font
+    }
+    
+    glFlush();
+}
+
 GLenum errorCheck()
 {
     GLenum code;
@@ -212,7 +229,8 @@ int main(int argc, char ** argv)
 //    glutDisplayFunc(polygonSegment);
 //    glutDisplayFunc(quadSegment);
 //    glutDisplayFunc(cubeSegment);
-    glutDisplayFunc(bitmapSegment);
+//    glutDisplayFunc(bitmapSegment);
+    glutDisplayFunc(glCharacter);
     errorCheck(); // must set before MainLoop.
     glutMainLoop();
     
