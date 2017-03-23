@@ -63,6 +63,34 @@ void lineGraph (void)
     glFlush();
 }
 
+void barChart (void)
+{
+    GLint month, k;
+    GLint x = 20, y = 165;
+    
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(1.0, 0.0, 0.0);
+    for(k = 0; k < 12; k++)
+    {
+        // using x and y instead of xRaster and yRaster, because here we use x and y as a rect's vecters position but not a raster position.
+        glRecti(x + k * 50, y + 15, x + k * 50 + 20, dataValue[k]);
+    }
+    
+    glColor3f(0.0, 0.0, 0.0); // black characters
+    xRaster = 20;
+    for(month = 0; month < 12; month ++)
+    {
+        glRasterPos2i(xRaster, yRaster);
+        for(k = 3 * month; k < 3 * month + 3; k++)
+        {
+            glutBitmapCharacter(GLUT_BITMAP_HELVETICA_12, label[k]);
+        }
+        xRaster += 50;
+    }
+    
+    glFlush();
+}
+
 void winReshapeFunc (GLint newWidth, GLint newHeight)
 {
     glMatrixMode(GL_PROJECTION);
@@ -81,7 +109,8 @@ int main(int argc, char ** argv)
     glutCreateWindow("Line Chart Data Plot");
     
     init();
-    glutDisplayFunc(lineGraph);
+//    glutDisplayFunc(lineGraph);
+    glutDisplayFunc(barChart);
     glutReshapeFunc(winReshapeFunc);
     
     glutMainLoop();
