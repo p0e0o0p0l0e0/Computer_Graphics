@@ -30,6 +30,7 @@ void lineGraph (void)
 {
     GLint month, k;
     xRaster = 25; // reset the xRaster to adapt the screen reshaping.
+    GLint x = 20;
     
     glClear(GL_COLOR_BUFFER_BIT);
     glColor3f(0.0, 0.0, 1.0); // blue lines
@@ -37,14 +38,15 @@ void lineGraph (void)
     glBegin(GL_LINE_STRIP);
     for(k = 0; k < 12; k++)
     {
-        glVertex2i(xRaster + k * 50, dataValue[k]);
+        // using x instead of xRaster, because here we use x as vecters position but not a raster position.
+        glVertex2i(x + k * 50, dataValue[k]);
     }
     glEnd();
     
     glColor3f(1.0, 0.0, 0.0); // red markers
     for(k = 0; k < 12; k++)
     {
-        glRasterPos2i(xRaster - 4 + k * 50, dataValue[k] - 4);
+        glRasterPos2i(x - 4 + k * 50, dataValue[k] - 4);
         glutBitmapCharacter(GLUT_BITMAP_9_BY_15, '*');
     }
     
@@ -109,8 +111,8 @@ int main(int argc, char ** argv)
     glutCreateWindow("Line Chart Data Plot");
     
     init();
-//    glutDisplayFunc(lineGraph);
-    glutDisplayFunc(barChart);
+    glutDisplayFunc(lineGraph);
+//    glutDisplayFunc(barChart);
     glutReshapeFunc(winReshapeFunc);
     
     glutMainLoop();
