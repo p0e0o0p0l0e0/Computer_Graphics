@@ -24,7 +24,7 @@ void smoothLine (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    glShadeModel(GL_SMOOTH);
+    glShadeModel(GL_SMOOTH); // 默认为GL_FLAT模式，线段用单一颜色最后设置的颜色显示
     
     glBegin(GL_LINES);
     
