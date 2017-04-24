@@ -6,6 +6,7 @@
 //  Copyright © 2017年 张琳琪. All rights reserved.
 //
 #include <GLUT/GLUT.h>
+#include <iostream>
 
 GLsizei winWidth = 600, winHeight = 500; // Initial display window size.
 
@@ -21,9 +22,16 @@ void init (void)
 
 void pointSize (void)
 {
+    GLint size = 0;
+    glGetIntegerv(GL_POINT_SIZE_MAX, & size);
+    std::cout << "size : ";
+    std::cout << size;
+    // 问题：size大于256左右时，点的大小不再变化？GL_POINT_SIZE_MAX为256，why?
+    
+    
     glClear(GL_COLOR_BUFFER_BIT);
     
-    glPointSize(270.0); // 必须放在glBegin和glEnd外面. // 问题：size大于270左右时，点的大小不再变化？
+    glPointSize(30); // 必须放在glBegin和glEnd外面.
     
     glBegin(GL_POINTS);
     
