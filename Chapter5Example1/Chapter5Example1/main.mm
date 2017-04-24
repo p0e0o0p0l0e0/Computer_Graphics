@@ -18,6 +18,26 @@ void init (void)
     gluOrtho2D(-10, 10, -10, 10); // 屏幕的坐标范围
 }
 
+// color smooth or flat
+
+void smoothLine (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glShadeModel(GL_SMOOTH);
+    
+    glBegin(GL_LINES);
+    
+    glColor3f(0.0, 0.0, 1.0);
+    glVertex2i(0, 0);
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex2i(5, 5);
+    
+    glEnd();
+    
+    glFlush();
+}
+
 // line plot
 
 typedef struct {
@@ -181,7 +201,8 @@ int main(int argc, char * argv[])
     init();
 //    glutDisplayFunc(colorArray);
 //    glutDisplayFunc(pointSize);
-    glutDisplayFunc(linePlotFcn);
+//    glutDisplayFunc(linePlotFcn);
+    glutDisplayFunc(smoothLine);
 //    glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
