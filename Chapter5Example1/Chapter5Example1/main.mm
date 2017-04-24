@@ -18,6 +18,79 @@ void init (void)
     gluOrtho2D(-10, 10, -10, 10); // 屏幕的坐标范围
 }
 
+// line plot
+
+typedef struct {
+    float x, y;
+}wcPt2D;
+
+wcPt2D dataPts [5];
+
+void linePlot (wcPt2D dataPts [5])
+{
+    glBegin(GL_LINE_STRIP);
+    
+    for(int k = 0; k < 5; k++)
+    {
+        glVertex2f(dataPts[k].x, dataPts[k].y);
+    }
+    
+    glEnd();
+}
+
+void linePlotFcn (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    dataPts[0].x = -10;
+    dataPts[0].y = -10;
+    dataPts[1].x = -6;
+    dataPts[1].y = -6;
+    dataPts[2].x = -3;
+    dataPts[2].y = -8;
+    dataPts[3].x = 0;
+    dataPts[3].y = 5;
+    dataPts[4].x = 4;
+    dataPts[4].y = 7;
+    
+    glEnable(GL_LINE_STIPPLE);
+    
+    glColor3f(1.0, 0.0, 0.0);
+    glLineStipple(1, 0x1C47); // 点线
+    linePlot(dataPts);
+    
+    dataPts[1].x = -8;
+    dataPts[1].y = 1;
+    dataPts[2].x = -5;
+    dataPts[2].y = -3;
+    dataPts[3].x = -1;
+    dataPts[3].y = 4;
+    dataPts[4].x = 8;
+    dataPts[4].y = 2;
+    
+    glColor3f(0.0, 1.0, 0.0);
+    glLineStipple(1, 0x0101); // 点状
+    glLineWidth(5.0); // 线宽10
+    linePlot(dataPts);
+    
+    dataPts[1].x = -5;
+    dataPts[1].y = 5;
+    dataPts[2].x = -3;
+    dataPts[2].y = -3;
+    dataPts[3].x = 1;
+    dataPts[3].y = -4;
+    dataPts[4].x = 6;
+    dataPts[4].y = -8;
+    
+    glColor3f(0.0, 0.0, 1.0);
+    glLineStipple(1, 0x00FF); // 线状
+    linePlot(dataPts);
+    
+    glDisable(GL_LINE_STIPPLE);
+    
+    glFlush();
+}
+
 // point size
 
 void pointSize (void)
@@ -107,7 +180,8 @@ int main(int argc, char * argv[])
     
     init();
 //    glutDisplayFunc(colorArray);
-    glutDisplayFunc(pointSize);
+//    glutDisplayFunc(pointSize);
+    glutDisplayFunc(linePlotFcn);
 //    glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
