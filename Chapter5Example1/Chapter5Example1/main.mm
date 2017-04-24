@@ -17,6 +17,28 @@ void init (void)
     gluOrtho2D(-10, 10, -10, 10); // 屏幕的坐标范围
 }
 
+// point size
+
+void pointSize (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glPointSize(270.0); // 必须放在glBegin和glEnd外面. // 问题：size大于270左右时，点的大小不再变化？
+    
+    glBegin(GL_POINTS);
+    
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex2i(5, 8);
+    glColor3f(0.0, 1.0, 0.0);
+    glVertex2i(-2, 3);
+    glColor3f(0.0, 0.0, 1.0);
+    glVertex2i(5, -4);
+    
+    glEnd();
+    
+    glFlush();
+}
+
 // color array
 
 typedef GLint vertex3 [3], color3 [3];
@@ -76,7 +98,8 @@ int main(int argc, char * argv[])
     glutCreateWindow("Draw Curves");
     
     init();
-    glutDisplayFunc(colorArray);
+//    glutDisplayFunc(colorArray);
+    glutDisplayFunc(pointSize);
 //    glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
