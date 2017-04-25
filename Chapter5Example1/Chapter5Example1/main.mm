@@ -15,7 +15,7 @@ void init (void)
     glClearColor(0.0, 0.0, 0.0, 0.0);
     
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-100, 100, -100, 100); // 屏幕的坐标范围
+    gluOrtho2D(-10, 10, -10, 10); // 屏幕的坐标范围
 }
 
 // character function
@@ -81,9 +81,9 @@ void drawPolygon (void)
     glBegin(GL_TRIANGLES);
     
     glVertex2i(0, 0);
-    glEdgeFlag(GL_FALSE); // 对于凹多边形来说，消除多余的边。指明对于点(5,0)，它不是一条边的前端点。
+//    glEdgeFlag(GL_FALSE); // 对于凹多边形来说，消除多余的边。指明对于点(5,0)，它不是一条边的前端点。
     glVertex2i(5, 0);
-    glEdgeFlag(GL_TRUE);
+//    glEdgeFlag(GL_TRUE);
     glVertex2i(0, 5);
     
     // 也可以用边标志数组显示边的状态
@@ -102,8 +102,10 @@ void polygonLine (void)
     
     glColor3f(1.0, 0.0, 0.0);
     glEnable(GL_POLYGON_OFFSET_FILL);
+    glEnable(GL_POLYGON_SMOOTH); // 并没有效果，用GL_LINE_SMOOTH也没有效果
     glPolygonOffset(1.0, 1.0); // 深度位移方法，防止stitching。两因子典型值为0.75和1.0
     drawPolygon();
+    glDisable(GL_POLYGON_SMOOTH);
     glDisable(GL_POLYGON_OFFSET_FILL);
     
     glColor3f(0.0, 1.0, 0.0);
@@ -337,9 +339,9 @@ int main(int argc, char * argv[])
 //    glutDisplayFunc(linePlotFcn);
 //    glutDisplayFunc(smoothLine);
 //    glutDisplayFunc(fillPolygon);
-//    glutDisplayFunc(polygonLine);
+    glutDisplayFunc(polygonLine);
 //    glutDisplayFunc(drawPolygon1);
-    glutDisplayFunc(glCharacter);
+//    glutDisplayFunc(glCharacter);
 //    glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
