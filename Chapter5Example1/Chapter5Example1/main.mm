@@ -18,6 +18,33 @@ void init (void)
     gluOrtho2D(-10, 10, -10, 10); // 屏幕的坐标范围
 }
 
+// polygon fill pattern
+
+void fillPolygon (void)
+{
+    GLubyte fillPattern [] = {
+        0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00
+    };
+    
+    glPolygonStipple(fillPattern);
+    glEnable(GL_POLYGON_STIPPLE);
+    
+    glBegin(GL_TRIANGLES);
+    
+    glColor3f(1.0, 0.0, 0.0);
+    glVertex2i(0, 0);
+    glColor3f(0.0, 1.0, 0.0);
+    glVertex2i(5, 0);
+    glColor3f(0.0, 0.0, 1.0);
+    glVertex2i(0, 5);
+    
+    glEnd();
+    
+    glDisable(GL_POLYGON_STIPPLE);
+    
+    glFlush();
+}
+
 // color smooth or flat
 
 void smoothLine (void)
@@ -202,7 +229,8 @@ int main(int argc, char * argv[])
 //    glutDisplayFunc(colorArray);
 //    glutDisplayFunc(pointSize);
 //    glutDisplayFunc(linePlotFcn);
-    glutDisplayFunc(smoothLine);
+//    glutDisplayFunc(smoothLine);
+    glutDisplayFunc(fillPolygon);
 //    glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
