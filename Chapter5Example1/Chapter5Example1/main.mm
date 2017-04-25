@@ -15,7 +15,7 @@ void init (void)
     glClearColor(0.0, 0.0, 0.0, 0.0);
     
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-10, 10, -10, 10); // 屏幕的坐标范围
+    gluOrtho2D(-100, 100, -100, 100); // 屏幕的坐标范围
 }
 
 // character function
@@ -26,13 +26,19 @@ void glCharacter (void)
     
     glColor3f(1, 1, 0);
     
-    glRasterPos2i(-10, -10);
+    glRasterPos2i(-100, -100); // ? 为什么对stroke字符不起作用？
     char text [13] = "abcdefghijkl"; //长度要比字符个数多1，若为.c文件，则不需要多1.
+    
+    glLineWidth(5.0);
+    glEnable(GL_LINE_STIPPLE);
+    glLineStipple(1, 0x0101); // 点状线
+    
     for(int i = 0; i < 13; i++)
     {
-        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text[i]); // bitmap font
-//        glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]); // stroke font
+//        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text[i]); // bitmap font
+        glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]); // stroke font
     }
+    glDisable(GL_LINE_STIPPLE);
     
     glFlush();
 }
