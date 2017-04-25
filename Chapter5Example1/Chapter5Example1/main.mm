@@ -97,6 +97,9 @@ void drawPolygon1 (void)
     
     glClear(GL_COLOR_BUFFER_BIT);
     
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK); // 剔除后向面图形
+    
     glFrontFace(GL_CW); // 定义顺时针为前向面
     
     glColor3f(1.0, 0.0, 0.0);
@@ -117,6 +120,8 @@ void drawPolygon1 (void)
     glVertex2i(-1, 0);
     glVertex2i(-1, -6);
     glEnd();
+    
+    glDisable(GL_CULL_FACE);// disable一定在画完多边形之后再执行。
     
     glFlush();
 }
