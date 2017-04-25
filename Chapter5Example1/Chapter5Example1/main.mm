@@ -88,6 +88,39 @@ void polygonLine (void)
     glFlush();
 }
 
+// 多边形前向面函数
+
+void drawPolygon1 (void)
+{
+    glPolygonMode(GL_FRONT, GL_FILL); //前向面为填充
+    glPolygonMode(GL_BACK, GL_LINE); //后向面为线框
+    
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glFrontFace(GL_CW); // 定义顺时针为前向面
+    
+    glColor3f(1.0, 0.0, 0.0);
+    
+    glBegin(GL_POLYGON);
+    
+    glVertex2i(0, 0); // 此顺序为逆时针，因此为线框
+    glVertex2i(5, 0);
+    glVertex2i(0, 5);
+    
+    glEnd();
+    
+    glColor3f(0.0, 1.0, 0.0);
+    
+    glBegin(GL_POLYGON);
+    
+    glVertex2i(-6, -6); // 此顺序为顺时针，因此为填充
+    glVertex2i(-1, 0);
+    glVertex2i(-1, -6);
+    glEnd();
+    
+    glFlush();
+}
+
 // color smooth or flat
 
 void smoothLine (void)
@@ -274,7 +307,8 @@ int main(int argc, char * argv[])
 //    glutDisplayFunc(linePlotFcn);
 //    glutDisplayFunc(smoothLine);
 //    glutDisplayFunc(fillPolygon);
-    glutDisplayFunc(polygonLine);
+//    glutDisplayFunc(polygonLine);
+    glutDisplayFunc(drawPolygon1);
 //    glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
