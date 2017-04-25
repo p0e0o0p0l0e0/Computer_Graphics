@@ -18,7 +18,7 @@ void init (void)
     glClearColor(0.0, 0.0, 0.0, 0.0);
     
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0.0, 200, 0.0, 100); // 窗口坐标范围
+    gluOrtho2D(-200.0, 200, -100.0, 100); // 窗口坐标范围
 }
 
 void setPixel (int x, int y)
@@ -213,7 +213,7 @@ public:
     }
 };
 
-void circleMidPoint (GLint xc, GLint yc, GLint radius)
+void circleMidpoint (GLint xc, GLint yc, GLint radius)
 {
     screenPt circPt;
     GLint p = 1 - radius;
@@ -249,6 +249,58 @@ void circlePlotPoints(GLint xc, GLint yc, screenPt circPt)
     setPixel(yc - circPt.gety(), xc - circPt.getx());
 }
 
+// 中心椭圆算法
+
+void ellipseMidpoint (int xCenter, int yCenter, int Rx, int Ry)
+{
+    int Rx2 = Rx * Rx, Ry2 = Ry * Ry;
+    int twoRx2 = 2 * Rx2, twoRy2 = 2 * Ry2;
+    int p, x = 0, y = Ry, px = 0, py = twoRx2 * y;
+    
+    void ellipsePlotPoints (int, int, int, int);
+    ellipsePlotPoints(xCenter, yCenter, x, y);
+    
+    //Region 1
+    p = round(Ry2 - (Rx2 * Ry) + (0.25 * Rx2));
+    while (px < py) {
+        x++;
+        px += twoRy2;
+        if(p < 0){
+            p += Ry2 + px;
+        }
+        else{
+            y--;
+            py -= twoRx2;
+            p += Ry2 + px - py;
+        }
+        ellipsePlotPoints(xCenter, yCenter, x, y);
+    }
+    
+    //Region 2
+    p = round(Ry2 * (x + 0.5) * (x + 0.5) + Rx2 * (y - 1) * (y - 1) - Rx2 * Ry2);
+    while (y > 0) {
+        y--;
+        py -= twoRx2;
+        if(p > 0){
+            p += Rx2 - py;
+        }
+        else{
+            x++;
+            px += twoRy2;
+            p += Rx2 - py + px;
+        }
+        ellipsePlotPoints(xCenter, yCenter, x, y);
+    }
+}
+
+void ellipsePlotPoints (int xCenter, int yCenter, int x, int y)
+{
+    setPixel(xCenter + x, yCenter + y);
+    setPixel(xCenter - x, yCenter + y);
+    setPixel(xCenter + x, yCenter - y);
+    setPixel(xCenter - x, yCenter - y);
+}
+
 void displayFcn (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -269,7 +321,10 @@ void displayFcn (void)
     
     glPointSize(2.0);
     glColor3f(0.0, 1.0, 0.0);
-    circleMidPoint(30, 30, 15);
+    circleMidpoint(30, 30, 15);
+    
+    glColor3f(1.0, 0.0, 0.0);
+    ellipseMidpoint(-50, -50, 30, 20);
     
     glFlush();
 }
