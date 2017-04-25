@@ -325,7 +325,9 @@ void winReshapeFcn (GLint newWidth, GLint newHeight)
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
-void quaryFcn (void)
+// query function
+
+void queryFcn (void)
 {
     GLint lineWidth = 0;
     glGetIntegerv(GL_LINE_WIDTH, &lineWidth);
@@ -356,7 +358,7 @@ int main(int argc, char * argv[])
 //    glutDisplayFunc(glCharacter);
 //    glutReshapeFunc(winReshapeFcn);
     
-    quaryFcn();
+    queryFcn(); // 注意：写在mainloop外面则不会执行
     glutMainLoop();
     
     return 0;
