@@ -333,10 +333,42 @@ void queryFcn (void)
     glGetIntegerv(GL_LINE_WIDTH, &lineWidth);
     std::cout << "lineWidth : " << lineWidth << "\n";
     
+    GLint pointSize = 0;
+    glGetIntegerv(GL_POINT_SIZE, &pointSize);
+    std::cout << "pointSize : " << pointSize << "\n";
+    
     glColor3f(1.0, 0.0, 0.0);
     GLfloat colorvalue [4]; // 如果数组长度为3则会报错: Thread1:signal SIGABRT, 报错信息为: symbol stub for : __stack_chk_fail.
     glGetFloatv(GL_CURRENT_COLOR, &colorvalue[0]);
-    std::cout << "color value : " << colorvalue[0] << "," << colorvalue[1] << "," << colorvalue[2] << "\n";
+    std::cout << "color value : " << colorvalue[0] << "," << colorvalue[1] << "," << colorvalue[2] << "," << colorvalue[3] << "\n";
+}
+// attribute group
+
+void attrGroup (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    glColor3f(0, 1, 1); // 设置成青色
+    
+    glPushAttrib(GL_CURRENT_BIT | GL_POINT_BIT); // 这之后的颜色和点属性设置保存到堆栈中
+    glColor3f(0.0, 1.0, 0.0); // 绿色10size点
+    glPointSize(10.0);
+
+    glPushAttrib(GL_CURRENT_BIT | GL_POINT_BIT);
+    glColor3f(1.0, 0.0, 0.0); // 红色4size点
+    glPointSize(4.0);
+    
+    glBegin(GL_POINTS);
+    glVertex2i(0, 0); // 先画出红色4size点
+    glEnd();
+    
+    glPopAttrib();
+    
+    glBegin(GL_POINTS);
+    glVertex2i(5, 5); // 再画出绿色10size点
+    glEnd();
+    queryFcn(); // 问题：为什么当前颜色总打印出1，0，0，1？
+    
+    glFlush();
 }
 
 int main(int argc, char * argv[])
@@ -353,8 +385,9 @@ int main(int argc, char * argv[])
 //    glutDisplayFunc(linePlotFcn);
 //    glutDisplayFunc(smoothLine);
 //    glutDisplayFunc(fillPolygon);
-    glutDisplayFunc(polygonLine);
+//    glutDisplayFunc(polygonLine);
 //    glutDisplayFunc(drawPolygon1);
+    glutDisplayFunc(attrGroup);
 //    glutDisplayFunc(glCharacter);
 //    glutReshapeFunc(winReshapeFcn);
     
