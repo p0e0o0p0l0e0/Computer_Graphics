@@ -22,6 +22,8 @@ void init (void)
 
 void fillPolygon (void)
 {
+    glClear(GL_COLOR_BUFFER_BIT);
+    
     GLubyte fillPattern [] = {
         0xff, 0x00, 0xff, 0x00, 0xff, 0x00, 0xff, 0x00
     };
@@ -45,13 +47,44 @@ void fillPolygon (void)
     glFlush();
 }
 
+// polygon 线框图
+
+void drawPolygon (void)
+{
+//    glClear(GL_COLOR_BUFFER_BIT); // 注意：如果此处执行glClear，那么第一次画出的红色三角填充将被清除
+    
+    glBegin(GL_TRIANGLES);
+    
+    glVertex2i(0, 0);
+    glVertex2i(5, 0);
+    glVertex2i(0, 5);
+    
+    glEnd();
+    
+//    glFlush();
+}
+
+void polygonLine (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(1.0, 0.0, 0.0);
+    drawPolygon();
+    
+    glColor3f(0.0, 1.0, 0.0);
+    glPolygonMode(GL_FRONT, GL_LINE);
+    drawPolygon();
+    
+    glFlush();
+}
+
 // color smooth or flat
 
 void smoothLine (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    glShadeModel(GL_SMOOTH); // 默认为GL_FLAT模式，线段用单一颜色最后设置的颜色显示
+    glShadeModel(GL_SMOOTH); // 默认为GL_SMOOTH模式。还有GL_FLAT模式，线段用单一颜色最后设置的颜色显示
     
     glBegin(GL_LINES);
     
@@ -230,7 +263,8 @@ int main(int argc, char * argv[])
 //    glutDisplayFunc(pointSize);
 //    glutDisplayFunc(linePlotFcn);
 //    glutDisplayFunc(smoothLine);
-    glutDisplayFunc(fillPolygon);
+//    glutDisplayFunc(fillPolygon);
+    glutDisplayFunc(polygonLine);
 //    glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
