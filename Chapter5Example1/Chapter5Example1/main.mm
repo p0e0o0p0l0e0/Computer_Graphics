@@ -56,8 +56,15 @@ void drawPolygon (void)
     glBegin(GL_TRIANGLES);
     
     glVertex2i(0, 0);
+    glEdgeFlag(GL_FALSE); // 对于凹多边形来说，消除多余的边。指明对于点(5,0)，它不是一条边的前端点。
     glVertex2i(5, 0);
+    glEdgeFlag(GL_TRUE);
     glVertex2i(0, 5);
+    
+    // 也可以用边标志数组显示边的状态
+//    glEnableClientState(GL_EDGE_FLAG_ARRAY);
+//    glEdgeFlagPointer(offset, edgeFlagArray);
+//    glDisableClientState(GL_EDGE_FLAG_ARRAY);
     
     glEnd();
     
@@ -69,7 +76,10 @@ void polygonLine (void)
     glClear(GL_COLOR_BUFFER_BIT);
     
     glColor3f(1.0, 0.0, 0.0);
+    glEnable(GL_POLYGON_OFFSET_FILL);
+    glPolygonOffset(1.0, 1.0); // 深度位移方法，防止stitching。两因子典型值为0.75和1.0
     drawPolygon();
+    glDisable(GL_POLYGON_OFFSET_FILL);
     
     glColor3f(0.0, 1.0, 0.0);
     glPolygonMode(GL_FRONT, GL_LINE);
