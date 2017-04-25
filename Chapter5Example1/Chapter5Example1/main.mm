@@ -18,6 +18,25 @@ void init (void)
     gluOrtho2D(-10, 10, -10, 10); // 屏幕的坐标范围
 }
 
+// character function
+
+void glCharacter (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(1, 1, 0);
+    
+    glRasterPos2i(-10, -10);
+    char text [13] = "abcdefghijkl"; //长度要比字符个数多1，若为.c文件，则不需要多1.
+    for(int i = 0; i < 13; i++)
+    {
+        glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, text[i]); // bitmap font
+//        glutStrokeCharacter(GLUT_STROKE_ROMAN, text[i]); // stroke font
+    }
+    
+    glFlush();
+}
+
 // polygon fill pattern
 
 void fillPolygon (void)
@@ -313,7 +332,8 @@ int main(int argc, char * argv[])
 //    glutDisplayFunc(smoothLine);
 //    glutDisplayFunc(fillPolygon);
 //    glutDisplayFunc(polygonLine);
-    glutDisplayFunc(drawPolygon1);
+//    glutDisplayFunc(drawPolygon1);
+    glutDisplayFunc(glCharacter);
 //    glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
