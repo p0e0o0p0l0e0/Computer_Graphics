@@ -325,6 +325,18 @@ void winReshapeFcn (GLint newWidth, GLint newHeight)
     glClear(GL_COLOR_BUFFER_BIT);
 }
 
+void quaryFcn (void)
+{
+    GLint lineWidth = 0;
+    glGetIntegerv(GL_LINE_WIDTH, &lineWidth);
+    std::cout << "lineWidth : " << lineWidth << "\n";
+    
+    glColor3f(1.0, 0.0, 0.0);
+    GLfloat colorvalue [4]; // 如果数组长度为3则会报错: Thread1:signal SIGABRT, 报错信息为: symbol stub for : __stack_chk_fail.
+    glGetFloatv(GL_CURRENT_COLOR, &colorvalue[0]);
+    std::cout << "color value : " << colorvalue[0] << "," << colorvalue[1] << "," << colorvalue[2] << "\n";
+}
+
 int main(int argc, char * argv[])
 {
     glutInit(&argc, argv);
@@ -344,6 +356,7 @@ int main(int argc, char * argv[])
 //    glutDisplayFunc(glCharacter);
 //    glutReshapeFunc(winReshapeFcn);
     
+    quaryFcn();
     glutMainLoop();
     
     return 0;
