@@ -11,14 +11,14 @@
 #include <math.h>
 #include <iostream>
 
-GLsizei winWidth = 600, winHeight = 500; // Initial display window size.
+GLsizei winWidth = 600, winHeight = 300; // Initial display window size.
 
 void init (void)
 {
     glClearColor(0.0, 0.0, 0.0, 0.0);
     
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(0.0, 100, 0.0, 100); // 窗口坐标范围
+    gluOrtho2D(0.0, 200, 0.0, 100); // 窗口坐标范围
 }
 
 void setPixel (int x, int y)
@@ -176,6 +176,79 @@ void lineBres (int x0, int y0, int xEnd, int yEnd)
     }
 }
 
+// 中点圆算法
+
+class screenPt
+{
+private:
+    GLint x, y;
+    
+public:
+    screenPt()
+    {
+        x = y = 0;
+    }
+    
+    void setCoords (GLint xCoordValue, GLint yCoordValue)
+    {
+        x = xCoordValue;
+        y = yCoordValue;
+    }
+    
+    GLint getx() const {
+        return x;
+    }
+    
+    GLint gety() const {
+        return y;
+    }
+    
+    void incrementx() {
+        x++;
+    }
+    
+    void decrementy()
+    {
+        y--;
+    }
+};
+
+void circleMidPoint (GLint xc, GLint yc, GLint radius)
+{
+    screenPt circPt;
+    GLint p = 1 - radius;
+    circPt.setCoords(0, radius);
+    
+    void circlePlotPoints (GLint, GLint, screenPt);
+    circlePlotPoints(xc, yc, circPt);
+    
+    while (circPt.getx() < circPt.gety()) {
+        circPt.incrementx();
+        if(p < 0)
+        {
+            p += 2 * circPt.getx() + 1;
+        }
+        else
+        {
+            circPt.decrementy();
+            p += 2 * (circPt.getx() - circPt.gety()) + 1;
+        }
+        circlePlotPoints(xc, yc, circPt);
+    }
+}
+
+void circlePlotPoints(GLint xc, GLint yc, screenPt circPt)
+{
+    setPixel(xc + circPt.getx(), yc + circPt.gety());
+    setPixel(xc - circPt.getx(), yc + circPt.gety());
+    setPixel(xc + circPt.getx(), yc - circPt.gety());
+    setPixel(xc - circPt.getx(), yc - circPt.gety());
+    setPixel(yc + circPt.gety(), xc + circPt.getx());
+    setPixel(yc - circPt.gety(), xc + circPt.getx());
+    setPixel(yc + circPt.gety(), xc - circPt.getx());
+    setPixel(yc - circPt.gety(), xc - circPt.getx());
+}
+
 void displayFcn (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -185,7 +258,7 @@ void displayFcn (void)
     lineDDA(1, 1, 80, 30); // 0 < slope < 1
     lineDDA(1, 1, 1, 30); // slope 无穷大
     lineDDA(1, 80, 1, 80); // slope = 0
-
+    
     
     glPointSize(5.0);
     glColor3f(0.0, 0.0, 1.0);
@@ -193,6 +266,10 @@ void displayFcn (void)
     lineBres(15, 20, 40, 90); // slope > 1
     lineBres(15, 50, 40, 50); // slope = 0
     lineBres(15, 30, 15, 80); // slope 无穷大
+    
+    glPointSize(2.0);
+    glColor3f(0.0, 1.0, 0.0);
+    circleMidPoint(30, 30, 15);
     
     glFlush();
 }
