@@ -95,6 +95,24 @@ void rotatePolygon (wcPt2D * verts, GLint nVerts, wcPt2D pivPt, GLdouble theta)
     glEnd();
 }
 
+void scalePolygon (wcPt2D * verts, GLint nVerts, wcPt2D pivPt, GLfloat sx, GLfloat sy)
+{
+    wcPt2D * vertSca = (wcPt2D *)malloc(nVerts * sizeof(wcPt2D));
+    GLint k;
+    
+    for(k = 0; k < nVerts; k++)
+    {
+        vertSca[k].x = verts[k].x * sx + pivPt.x * (1 - sx);
+        vertSca[k].y = verts[k].y * sy + pivPt.y * (1 - sy);
+    }
+    glBegin(GL_POLYGON);
+    for(k = 0; k < nVerts; k++)
+    {
+        glVertex2i(vertSca[k].x, vertSca[k].y);
+    }
+    glEnd();
+}
+
 void displayFcn (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
@@ -118,6 +136,11 @@ void displayFcn (void)
     pivotPoint.x = 10, pivotPoint.y = 10;
     glColor3f(0.0, 0.0, 1.0);
     rotatePolygon(verts, nVerts, pivotPoint, -TWO_Pi/2);
+    
+    wcPt2D pivotPoint1;
+    pivotPoint1.x = 0, pivotPoint1.y = 0;
+    glColor3f(1.0, 0.5, 0.0);
+    scalePolygon(verts, nVerts, pivotPoint1, -1.5, -1.5);
     
     glFlush();}
 
