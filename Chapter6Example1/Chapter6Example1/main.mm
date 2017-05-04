@@ -56,24 +56,12 @@ void lineDDA (int x0, int y0, int xEnd, int yEnd)
     
     setPixel(round(x), round(y));
     
-    glColor3f(1.0, 1.0, 0.0);
-    for(k = 0; k < steps; k++)
-    {
-        x += xIncrement;
-        y += yIncrement;
-        setPixel(round(x), round(y));
-    }
-    
     // amend DDA algorithm, delta X = xEnd - x0;
-    glColor3f(1.0, 0.0, 0.0);
-    x = x0, y = y0;
-    setPixel(round(x), round(y));
-    for(k = 0; k < steps; k++)
+//    for(k = 0; k < steps; k++)
+    for(k = 0; k < steps - 1; k++)
     {
         x += xIncrement;
         y += yIncrement;
-        if(round(x) == xEnd && round(y) == yEnd)
-            break;
         setPixel(round(x), round(y));
     }
 }
@@ -101,7 +89,9 @@ void lineBres1 (int x0, int y0, int xEnd, int yEnd, bool slopepositive = true)
     
     setPixel(x, y);
     
-    while (x < xEnd) {
+    // amend Bresenham algorithm
+//    while (x < xEnd)
+    while (x < xEnd - 1) {
         x++;
         if (p < 0)
         {
@@ -143,7 +133,9 @@ void lineBres2 (int x0, int y0, int xEnd, int yEnd, bool slopepositive = true)
     
     setPixel(x, y);
     
-    while (y < yEnd) {
+    // amend Bresenham algorithm
+//    while (y < yEnd) {    
+    while (y < yEnd - 1) {
         y++;
         if (p < 0)
         {
