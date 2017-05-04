@@ -56,10 +56,24 @@ void lineDDA (int x0, int y0, int xEnd, int yEnd)
     
     setPixel(round(x), round(y));
     
+    glColor3f(1.0, 1.0, 0.0);
     for(k = 0; k < steps; k++)
     {
         x += xIncrement;
         y += yIncrement;
+        setPixel(round(x), round(y));
+    }
+    
+    // amend DDA algorithm, delta X = xEnd - x0;
+    glColor3f(1.0, 0.0, 0.0);
+    x = x0, y = y0;
+    setPixel(round(x), round(y));
+    for(k = 0; k < steps; k++)
+    {
+        x += xIncrement;
+        y += yIncrement;
+        if(round(x) == xEnd && round(y) == yEnd)
+            break;
         setPixel(round(x), round(y));
     }
 }
