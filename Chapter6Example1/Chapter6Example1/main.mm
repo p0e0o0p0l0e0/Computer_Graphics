@@ -21,6 +21,14 @@ void init (void)
     gluOrtho2D(-200.0, 200, -100.0, 100); // 窗口坐标范围
 }
 
+typedef float Color [3];
+
+void getPixel(GLint x, GLint y, Color c)
+{
+    glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, c);
+    std::cout<< "color : " << c << std::endl;
+}
+
 void setPixel (int x, int y)
 {
     glBegin(GL_POINTS);
@@ -386,6 +394,8 @@ void displayFcn (void)
     lineDDA(1, 1, 1, 30); // slope 无穷大
     lineDDA(1, 80, 1, 80); // slope = 0
     
+    Color c;
+    getPixel(1, 1, c);
     
     glPointSize(5.0);
     glColor3f(0.0, 0.0, 1.0);
