@@ -8,6 +8,9 @@
 
 #include <GLUT/GLUT.h>
 #include <iostream>
+#include <math.h>
+
+#define TWO_Pi 3.14159
 
 GLsizei winWidth = 600, winHeight = 300; // Initial display window size.
 
@@ -58,33 +61,38 @@ void drawPolygon(wcPt2D * verts, GLint nVerts)
 
 void translatePolygon (wcPt2D * verts, GLint nVerts, GLfloat tx, GLfloat ty)
 {
+    wcPt2D * vertsTra = (wcPt2D *)malloc(nVerts * sizeof(wcPt2D));
     GLint k;
     
     for (k = 0; k < nVerts; k++)
     {
-        verts[k].x += tx;
-        verts[k].y += ty;
+        vertsTra[k].x = verts[k].x + tx;
+        vertsTra[k].y = verts[k].y + ty;
     }
     glBegin(GL_POLYGON);
     for(k = 0; k < nVerts; k++)
     {
-        glVertex2f(verts[k].x, verts[k].y);
+        glVertex2f(vertsTra[k].x, vertsTra[k].y);
     }
     glEnd();
 }
 
-void draw2DTranslate() // Chp 7.1.1
+void rotatePolygon (wcPt2D * verts, GLint nVerts, wcPt2D pivPt, GLdouble theta)
 {
-    glColor3f(1.0, 0.0, 0.0);
-    GLint nVerts = 3;
-    wcPt2D *verts;
-    verts = (wcPt2D *)malloc(nVerts * sizeof(wcPt2D));
-    verts[0].x = 10, verts[0].y = 10;
-    verts[1].x = 100, verts[1].y = 20;
-    verts[2].x = 80, verts[2].y = 50;
-    drawPolygon(verts, nVerts);
-    glColor3f(1, 0.5, 0.0);
-    translatePolygon(verts, nVerts, -150, 50);
+    wcPt2D * vertsRot = (wcPt2D *) malloc(nVerts * sizeof(wcPt2D));
+    GLint k;
+    
+    for(k = 0; k < nVerts; k++)
+    {
+        vertsRot[k].x = pivPt.x + (verts[k].x - pivPt.x) * cos (theta) - (verts[k].y - pivPt.y) * sin(theta);
+        vertsRot[k].y = pivPt.y + (verts[k].x - pivPt.x) * sin (theta) + (verts[k].y - pivPt.y) * cos(theta);
+    }
+    glBegin(GL_POLYGON);
+    for(k = 0; k < nVerts; k++)
+    {
+        glVertex2f(vertsRot[k].x, vertsRot[k].y);
+    }
+    glEnd();
 }
 
 void displayFcn (void)
@@ -94,7 +102,22 @@ void displayFcn (void)
     glColor3f(1.0, 1.0, 1.0);
     drawCoords();
     
-    draw2DTranslate();
+    glColor3f(0.0, 1.0, 0.0);
+    GLint nVerts = 3;
+    wcPt2D *verts;
+    verts = (wcPt2D *)malloc(nVerts * sizeof(wcPt2D));
+    verts[0].x = 10, verts[0].y = 10;
+    verts[1].x = 100, verts[1].y = 20;
+    verts[2].x = 80, verts[2].y = 50;
+    drawPolygon(verts, nVerts);
+    
+    glColor3f(1.0, 0.0, 0.0);
+    translatePolygon(verts, nVerts, -150, 50);
+    
+    wcPt2D pivotPoint;
+    pivotPoint.x = 10, pivotPoint.y = 10;
+    glColor3f(0.0, 0.0, 1.0);
+    rotatePolygon(verts, nVerts, pivotPoint, -TWO_Pi/2);
     
     glFlush();}
 
