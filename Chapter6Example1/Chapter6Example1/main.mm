@@ -28,6 +28,34 @@ void setPixel (int x, int y)
     glEnd();
 }
 
+void setPixel1 (int x, int y)
+{
+//    GLfloat iPixel[4];
+//    glReadPixels(x, y, 1, 1, GL_RGB, GL_FLOAT, &iPixel);
+//    glReadPixels(x, y, 1, 1, GL_RED, GL_FLOAT, &iPixel[0]);
+//    glReadPixels(x, y, 1, 1, GL_GREEN, GL_UNSIGNED_BYTE, &iPixel[1]);
+//    glReadPixels(x, y, 1, 1, GL_BLUE, GL_UNSIGNED_BYTE, &iPixel[2]);
+//    if(float(iPixel[0]) != 0.0)
+//    {
+//        std::cout << "red color is not zero ! " << std::endl;
+//        std::cout << "red color : "     << float(iPixel[0]) << std::endl;
+//    }
+//    if(float(iPixel[1]) != 0.0)
+//    {
+//        std::cout << "green color is not zero ! " << std::endl;
+//        std::cout << "green color : "   << float(iPixel[1]) << std::endl;
+//    }
+//    if(float(iPixel[2]) != 0.0)
+//    {
+//        std::cout << "blue color is not zero ! " << std::endl;
+//        std::cout << "blue color : "    << float(iPixel[2]) << std::endl;
+//    }
+    glBegin(GL_POINTS);
+    glVertex2i(x, y);
+    glEnd();
+}
+
+
 inline int round (const float a) { return int (a + 0.5);}
 
 // line DDA
@@ -213,8 +241,15 @@ public:
         x++;
     }
     
-    void decrementy()
-    {
+    void decrementx() {
+        x--;
+    }
+    
+    void incrementy() {
+        y++;
+    }
+    
+    void decrementy() {
         y--;
     }
 };
@@ -241,6 +276,27 @@ void circleMidpoint (GLint xc, GLint yc, GLint radius)
         }
         circlePlotPoints(xc, yc, circPt);
     }
+    
+    
+    // circle midpoint amend algorithm.
+    glColor3f(1.0, 1.0, 0.0);
+    p = 1 - radius;
+    circPt.setCoords(0, -radius);
+    void circlePlotPoints1 (GLint, GLint, screenPt);
+    circlePlotPoints1(xc, yc, circPt);
+    while (circPt.getx() > circPt.gety()) {
+        circPt.decrementx();
+        if(p > 0)
+        {
+            circPt.incrementy();
+            p += 2 * (circPt.gety() - circPt.getx()) + 5;
+        }
+        else
+        {
+            p += 3 - 2 * circPt.getx();
+        }
+        circlePlotPoints1(xc, yc, circPt);
+    }
 }
 
 void circlePlotPoints(GLint xc, GLint yc, screenPt circPt)
@@ -253,6 +309,19 @@ void circlePlotPoints(GLint xc, GLint yc, screenPt circPt)
     setPixel(yc - circPt.gety(), xc + circPt.getx());
     setPixel(yc + circPt.gety(), xc - circPt.getx());
     setPixel(yc - circPt.gety(), xc - circPt.getx());
+}
+
+
+void circlePlotPoints1(GLint xc, GLint yc, screenPt circPt)
+{
+    setPixel1(xc + circPt.getx(), yc + circPt.gety());
+    setPixel1(xc - circPt.getx() - 1, yc + circPt.gety());
+    setPixel1(xc + circPt.getx(), yc - circPt.gety() - 1);
+    setPixel1(xc - circPt.getx() - 1, yc - circPt.gety() - 1);
+    setPixel1(yc + circPt.gety(), xc + circPt.getx());
+    setPixel1(yc - circPt.gety() - 1, xc + circPt.getx());
+    setPixel1(yc + circPt.gety(), xc - circPt.getx() - 1);
+    setPixel1(yc - circPt.gety() - 1, xc - circPt.getx() - 1);
 }
 
 // 中心椭圆算法
