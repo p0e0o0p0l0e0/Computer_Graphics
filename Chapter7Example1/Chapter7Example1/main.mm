@@ -10,7 +10,7 @@
 #include <iostream>
 #include <math.h>
 
-#define TWO_Pi 3.14159
+const GLdouble pi = 3.14159;
 
 GLsizei winWidth = 600, winHeight = 300; // Initial display window size.
 
@@ -135,7 +135,7 @@ void displayFcn (void)
     wcPt2D pivotPoint;
     pivotPoint.x = 10, pivotPoint.y = 10;
     glColor3f(0.0, 0.0, 1.0);
-    rotatePolygon(verts, nVerts, pivotPoint, -TWO_Pi/2);
+    rotatePolygon(verts, nVerts, pivotPoint, -pi/2);
     
     wcPt2D pivotPoint1;
     pivotPoint1.x = 0, pivotPoint1.y = 0;
