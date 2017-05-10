@@ -12,8 +12,8 @@
 
 GLsizei winWidth = 600, winHeight = 600; // Initial display window size.
 
-GLfloat xwcMin = 0.0, xwcMax = 225.0;
-GLfloat ywcMin = 0.0, ywcMax = 225.0;
+GLfloat xwcMin = -225.0, xwcMax = 225.0;
+GLfloat ywcMin = -225.0, ywcMax = 225.0;
 
 class wcPt2D{
 public:
@@ -168,6 +168,32 @@ void displayFcn (void)
     glFlush();
 }
 
+void displayFcn1 (void)
+{
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glMatrixMode(GL_MODELVIEW);
+    
+    glColor3f(0.0, 0.0, 1.0);
+    glRecti(50, 100, 200, 150);
+    
+    glColor3f(1.0, 0.0, 0.0);
+    glTranslatef(-200.0, -50.0, 0.0);
+    glRecti(50, 100, 200, 150);
+    
+    glLoadIdentity();
+    glColor3f(0.0, 1.0, 0.0);
+    glRotatef(90.0, 0.0, 0.0, 1.0);
+    glRecti(50, 100, 200, 150);
+    
+    glLoadIdentity();
+    glColor3f(1.0, 1.0, 0.0);
+    glScalef(-0.5, 1.0, 1.0);
+    glRecti(50, 100, 200, 150);
+    
+    glFlush();
+}
+
 void winReshapeFcn (GLint newWidth, GLint newHeight)
 {
     glMatrixMode(GL_PROJECTION);
@@ -186,7 +212,7 @@ int main(int argc, char * argv[])
     glutCreateWindow("Geometric Transformation Sequence");
     
     init();
-    glutDisplayFunc(displayFcn);
+    glutDisplayFunc(displayFcn1);
     glutReshapeFunc(winReshapeFcn);
     
     glutMainLoop();
