@@ -181,10 +181,15 @@ void displayFcn1 (void)
     glTranslatef(-200.0, -50.0, 0.0);
     glRecti(50, 100, 200, 150);
     
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    
     glLoadIdentity();
-    glColor3f(0.0, 1.0, 0.0);
+    glColor4f(0.0, 1.0, 0.0, 0.5);
     glRotatef(90.0, 0.0, 0.0, 1.0);
     glRecti(50, 100, 200, 150);
+    
+    glDisable(GL_BLEND);
     
     glLoadIdentity();
     glColor3f(1.0, 1.0, 0.0);
