@@ -19,7 +19,7 @@ void init (void)
     glClearColor(0.0, 0.0, 0.0, 1.0);
     
     glMatrixMode(GL_PROJECTION);
-//    gluOrtho2D(-100, 100, -100, 100);
+    gluOrtho2D(-100, 100, -100, 100);
     
     glMatrixMode(GL_MODELVIEW);
 }
@@ -44,17 +44,33 @@ void line (GLint x1, GLint y1, GLint x2, GLint y2)
     glEnd();
 }
 
-void displayFcn (void)
+void displayFcn1 (void)
 {
-    wcPt2D verts [3] = {{-0.5, -0.25}, {0.5, -0.25}, {0.0, 0.5}};
+    wcPt2D verts [3] = {{-50, -25}, {50, -25}, {0.0, 50}};
     
     glClear(GL_COLOR_BUFFER_BIT);
     
     glColor3f(1.0, 1.0, 1.0);
-    line(-1, 0, 1, 0);
-    line(0, -1, 0, 1);
+    line(-100, 0, 100, 0);
+    line(0, -100, 0, 100);
     
     glColor3f(0.0, 0.0, 1.0);
+    triangle(verts);
+    
+    glFlush();
+}
+
+void displayFcn2 (void)
+{
+    wcPt2D verts [3] = {{-50, -25}, {50, -25}, {0.0, 50}};
+    
+    glClear(GL_COLOR_BUFFER_BIT);
+    
+    glColor3f(1.0, 1.0, 1.0);
+    line(-100, 0, 100, 0);
+    line(0, -100, 0, 100);
+    
+    glColor3f(1.0, 0.0, 0.0);
     triangle(verts);
     
     glFlush();
@@ -64,12 +80,20 @@ int main(int argc, char ** argv)
 {
     glutInit (&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
+    
+    
     glutInitWindowPosition(50, 50);
     glutInitWindowSize(600, 300);
-    glutCreateWindow("Split-Screen Example");
-    
+    GLint windowID1 = glutCreateWindow("Split-Screen Example1");
     init();
-    glutDisplayFunc(displayFcn);
+    glutDisplayFunc(displayFcn1);
+    
+    
+    glutInitWindowPosition(600, 100);
+    glutInitWindowSize(600, 300);
+    GLint windowID2 = glutCreateWindow("Split-Screen Example2");
+    init();
+    glutDisplayFunc(displayFcn2);
     
     glutMainLoop();
 }
