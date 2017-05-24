@@ -7,6 +7,7 @@
 //
 
 #include <GLUT/GLUT.h>
+#include <iostream>
 
 class wcPt2D{
 public:
@@ -87,13 +88,23 @@ int main(int argc, char ** argv)
     GLint windowID1 = glutCreateWindow("Split-Screen Example1");
     init();
     glutDisplayFunc(displayFcn1);
-    
+    std::cout << "windowID1 : " << windowID1 << std::endl;
     
     glutInitWindowPosition(600, 100);
     glutInitWindowSize(600, 300);
     GLint windowID2 = glutCreateWindow("Split-Screen Example2");
     init();
     glutDisplayFunc(displayFcn2);
+    std::cout << "windowID2 : " << windowID2 << std::endl;
+    
+    glutInitWindowPosition(600, 100);
+    glutInitWindowSize(600, 300);
+    GLint subWindowID1 = glutCreateWindow("Sub Window Example1");
+    init();
+    glutDisplayFunc(displayFcn2);
+    std::cout << "subWindowID1 : " << subWindowID1 << std::endl;
+    
+    glutDestroyWindow(windowID2);
     
     glutMainLoop();
 }
