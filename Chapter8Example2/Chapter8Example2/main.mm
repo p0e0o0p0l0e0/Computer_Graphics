@@ -133,6 +133,11 @@ int main(int argc, char ** argv)
 //    glutIconifyWindow(); // 有飞出的效果，没有图标效果
 //    glutSetIconTitle("new new name display on window1");
     
+    glutSetCursor(GLUT_CURSOR_HELP);
+    
+    GLint posX = glutGet(GLUT_WINDOW_X);
+    std::cout << "current window x : " << posX << std::endl;
+    
     glutMainLoop();
 }
 
