@@ -106,9 +106,10 @@ int main(int argc, char ** argv)
     glutDisplayFunc(displayFcn1);
     std::cout << "windowID1 : " << windowID1 << std::endl;
     
-    glutHideWindow(); // 在此有效
-    glutShowWindow(); // 在此有效
+//    glutHideWindow(); // 在此有效
+//    glutShowWindow(); // 在此有效
 //    glutIconifyWindow(); // 在此有效
+//    glutFullScreen(); // 不能用在子窗口上，对一级窗口有效
     
     glutInitWindowPosition(400, 100);
     glutInitWindowSize(600, 300);
@@ -116,11 +117,12 @@ int main(int argc, char ** argv)
     init();
     glutDisplayFunc(displayFcn2);
     std::cout << "windowID2 : " << windowID2 << std::endl;
-//    glutFullScreen(); // 不能用在子窗口上，对一级窗口有效
     
     glutInitWindowPosition(100, 300);
     glutInitWindowSize(600, 300);
-    GLint subWindowID1 = glutCreateSubWindow(windowID2, 250, 100, 100, 100); // 子窗口的大小和坐标是相对于显示窗口的，600*300的显示窗口的子窗口如果想显示在窗口正中间，距离左下角的坐标应为(250, 100);
+    GLint subWindowID1 = glutCreateSubWindow(windowID2, 250, 100, 100, 100);
+    // 子窗口的大小和坐标是相对于显示窗口的，600*300的显示窗口的子窗口如果想显示在窗口正中间，距离左下角的坐标应为(250, 100);
+    
     init();
     glutDisplayFunc(displayFcn3);
     std::cout << "subWindowID1 : " << subWindowID1 << std::endl; // subwindow编号是在一级窗口后继续累加
@@ -128,21 +130,27 @@ int main(int argc, char ** argv)
     glutSetCursor(GLUT_CURSOR_HELP); // 对子窗口和一级窗口都ok
     GLint posX = glutGet(GLUT_WINDOW_X);
     std::cout << "current window x : " << posX << std::endl;
+    GLint currentWindowID1 = glutGetWindow();
+    std::cout << "current window id1 : " << currentWindowID1 << std::endl; // 当前窗口是子窗口，id为3
     
-//    glutPushWindow(); // 对当前窗口有效
+//    glutPushWindow(); // 对当前窗口有效，如果当前是子窗口，则子窗口对应的一级窗口push
 //    glutPopWindow(); // 对当前窗口有效
 //    glutHideWindow(); // 对于子窗口有效
 //    glutShowWindow(); // 对于子窗口有效
     
-    
-    // 大概总结一下，使用SetWindow设置的当前窗口，pop,push,hide,show,iconify等都没有效果
+    // ❤️大概总结一下，使用SetWindow设置的当前窗口，pop,push 等都没有效果，其他都ok
     glutSetWindow(windowID1);
-    glutPopWindow(); // 没有效果
-    glutSetWindowTitle("new name display on window1");
+    GLint currentWindowID2 = glutGetWindow();
+    std::cout << "current window id2 : " << currentWindowID2 << std::endl; // 当前窗口时一级窗口，id为1
+    glutSetWindowTitle("new name display on window1"); // 有效
+    glutIconifyWindow(); // 有效，最小化在图标上
+    glutSetIconTitle("new name display on icon"); // 有效，是最小化后的图标的名称
+//    glutFullScreen(); // 有效
+//    glutHideWindow(); // 有效
+    
+//    glutPopWindow(); // 无效，并且如果执行，会对icon和hidewindow之类的有影响
     
 //    glutPostRedisplay(); // 什么时候用？
-//    glutIconifyWindow(); // 有飞出的效果，没有图标效果
-//    glutSetIconTitle("new new name display on window1"); // 没有效果
     
     glutMainLoop();
 }
