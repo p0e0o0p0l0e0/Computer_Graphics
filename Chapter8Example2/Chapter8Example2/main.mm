@@ -148,7 +148,8 @@ int main(int argc, char ** argv)
 //    glutFullScreen(); // 有效
 //    glutHideWindow(); // 有效
     
-//    glutPopWindow(); // 无效，并且如果执行，会对icon和hidewindow之类的有影响
+    glutSetWindow(windowID1);
+    glutPopWindow(); // 无效，并且如果执行，会对icon和hidewindow之类的有影响
     
 //    glutPostRedisplay(); // 什么时候用？
     
