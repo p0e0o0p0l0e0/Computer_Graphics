@@ -10,6 +10,7 @@
 		7272EC801ED9217F00D50DD2 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 728D5C1D1ED91B7600C6890D /* GLUT.framework */; };
 		7272EC811ED9219700D50DD2 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 728D5C1B1ED91B7300C6890D /* OpenGL.framework */; };
 		7272EC841ED9386A00D50DD2 /* linecohsuth.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7272EC831ED9386A00D50DD2 /* linecohsuth.mm */; };
+		7272EC8A1ED966F200D50DD2 /* lineliangbarsk.mm in Sources */ = {isa = PBXBuildFile; fileRef = 7272EC891ED966F200D50DD2 /* lineliangbarsk.mm */; };
 		728D5C141ED91B6A00C6890D /* main.mm in Sources */ = {isa = PBXBuildFile; fileRef = 728D5C131ED91B6A00C6890D /* main.mm */; };
 		728D5C201ED91C2300C6890D /* linebres.mm in Sources */ = {isa = PBXBuildFile; fileRef = 728D5C1F1ED91C2300C6890D /* linebres.mm */; };
 /* End PBXBuildFile section */
@@ -30,11 +31,13 @@
 		7272EC821ED9228300D50DD2 /* linebres.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = linebres.h; sourceTree = "<group>"; };
 		7272EC831ED9386A00D50DD2 /* linecohsuth.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = linecohsuth.mm; sourceTree = "<group>"; };
 		7272EC851ED9387C00D50DD2 /* linecohsuth.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = linecohsuth.h; sourceTree = "<group>"; };
+		7272EC891ED966F200D50DD2 /* lineliangbarsk.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = lineliangbarsk.mm; sourceTree = "<group>"; };
 		728D5C101ED91B6A00C6890D /* Chapter8Example3 */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Chapter8Example3; sourceTree = BUILT_PRODUCTS_DIR; };
 		728D5C131ED91B6A00C6890D /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		728D5C1B1ED91B7300C6890D /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		728D5C1D1ED91B7600C6890D /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		728D5C1F1ED91C2300C6890D /* linebres.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = linebres.mm; sourceTree = "<group>"; };
+		72B021DC1ED96785005389E5 /* lineliangbarsk.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lineliangbarsk.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,10 +74,12 @@
 			isa = PBXGroup;
 			children = (
 				728D5C131ED91B6A00C6890D /* main.mm */,
-				728D5C1F1ED91C2300C6890D /* linebres.mm */,
 				7272EC821ED9228300D50DD2 /* linebres.h */,
-				7272EC831ED9386A00D50DD2 /* linecohsuth.mm */,
+				728D5C1F1ED91C2300C6890D /* linebres.mm */,
 				7272EC851ED9387C00D50DD2 /* linecohsuth.h */,
+				7272EC831ED9386A00D50DD2 /* linecohsuth.mm */,
+				72B021DC1ED96785005389E5 /* lineliangbarsk.h */,
+				7272EC891ED966F200D50DD2 /* lineliangbarsk.mm */,
 			);
 			path = Chapter8Example3;
 			sourceTree = "<group>";
@@ -146,6 +151,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				728D5C141ED91B6A00C6890D /* main.mm in Sources */,
+				7272EC8A1ED966F200D50DD2 /* lineliangbarsk.mm in Sources */,
 				728D5C201ED91C2300C6890D /* linebres.mm in Sources */,
 				7272EC841ED9386A00D50DD2 /* linecohsuth.mm in Sources */,
 			);

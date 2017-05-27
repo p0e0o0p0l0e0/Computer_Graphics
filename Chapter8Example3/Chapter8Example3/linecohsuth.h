@@ -11,9 +11,28 @@
 
 inline int round (const float a) { return int (a + 0.5); }
 
-class wcPt2D {
+class wcPt2D
+{
+private:
+    GLfloat x, y;
+    
 public:
-    float x, y;
+    wcPt2D(){
+        x = y = 0.0;
+    }
+    void setCoords(GLfloat xCoord, GLfloat yCoord)
+    {
+        x = xCoord;
+        y = yCoord;
+    }
+    GLfloat getx () const
+    {
+        return x;
+    }
+    GLfloat gety () const
+    {
+        return y;
+    }
 };
 
 void lineClipCohSuth(wcPt2D, wcPt2D, wcPt2D, wcPt2D);

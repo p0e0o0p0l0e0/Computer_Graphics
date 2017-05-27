@@ -33,16 +33,16 @@ GLubyte encode (wcPt2D pt, wcPt2D winMin, wcPt2D winMax)
 {
     GLubyte code = 0x00;
     
-    if(pt.x < winMin.x)
+    if(pt.getx() < winMin.getx())
         code = code | winLeftBitCode;
-    if(pt.x > winMax.x)
+    if(pt.getx() > winMax.getx())
         code = code | winRightBitCode;
-    if(pt.y < winMin.y)
+    if(pt.gety() < winMin.gety())
         code = code | winBottomBitCode;
-    if(pt.y > winMax.y)
+    if(pt.gety() > winMax.gety())
         code = code | winTopBitCode;
     
-    printf("code : %0x  \n",code);
+//    printf("code : %0x  \n",code);
     return code;
 }
 
@@ -64,8 +64,7 @@ void lineClipCohSuth (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
     GLint done = false, plotLine = false;
     GLfloat m = 0.0;
     
-    
-    std::cout << p1.x << "," << p1.y << "," << p2.x << "," << p2.y << std::endl;
+//    std::cout << p1.getx() << "," << p1.gety() << "," << p2.getx() << "," << p2.gety() << std::endl;
     while (!done)
     {
         code1 = encode(p1, winMin, winMax);
@@ -87,47 +86,45 @@ void lineClipCohSuth (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
                 {
                     swapPts(&p1, &p2);
                     swapCode(&code1, &code2);
-                    std::cout << "swap : " << p1.x << "," << p1.y << "," << p2.x << "," << p2.y << std::endl;
+//                    std::cout << "swap : " << p1.getx() << "," << p1.gety() << "," << p2.getx() << "," << p2.gety() << std::endl;
                 }
                 
-                if(p2.x != p1.x)
-                    m = (p2.y - p1.y)/(p2.x - p1.x);
+                if(p2.getx() != p1.getx())
+                    m = (p2.gety() - p1.gety())/(p2.getx() - p1.getx());
                 
                 if(code1 & winLeftBitCode)
                 {
-                    p1.y += (winMin.x - p1.x) * m;
-                    p1.x = winMin.x;
-                    std::cout << "1 : " << p1.x << "," << p1.y << "," << p2.x << "," << p2.y << std::endl;
+                    p1.setCoords(winMin.getx(), p1.gety() + (winMin.getx() - p1.getx()) * m);
+//                    std::cout << "1 : " << p1.getx() << "," << p1.gety() << "," << p2.getx() << "," << p2.gety() << std::endl;
                 }
                 else
                 {
                     if(code1 & winRightBitCode)
                     {
-                        p1.y += (winMax.x - p1.x) * m;
-                        p1.x = winMax.x;
-                        std::cout << "2 : " << p1.x << "," << p1.y << "," << p2.x << "," << p2.y << std::endl;
+                        p1.setCoords(winMax.getx(), p1.gety() + (winMax.getx() - p1.getx()) * m);
+//                        std::cout << "2 : " << p1.getx() << "," << p1.gety() << "," << p2.getx() << "," << p2.gety() << std::endl;
                     }
                     else
                     {
                         if(code1 & winBottomBitCode)
                         {
-                            if(p2.x != p1.x)
+                            if(p2.getx() != p1.getx())
                             {
-                                p1.x += (winMin.y - p1.y) / m;
+                                p1.setCoords(p1.getx() + (winMin.gety() - p1.gety()) / m,  winMin.gety());
                             }
-                            p1.y = winMin.y;
-                            std::cout << "3 : " << p1.x << "," << p1.y << "," << p2.x << "," << p2.y << std::endl;
+                            p1.setCoords(p1.getx(), winMin.gety());
+//                            std::cout << "3 : " << p1.getx() << "," << p1.gety() << "," << p2.getx() << "," << p2.gety() << std::endl;
                         }
                         else
                         {
                             if(code1 & winTopBitCode)
                             {
-                                if(p2.x != p1.x)
+                                if(p2.getx() != p1.getx())
                                 {
-                                    p1.x += (winMax.y - p1.y) / m;
+                                    p1.setCoords(p1.getx() + (winMax.gety() - p1.gety()) / m, winMax.gety());
                                 }
-                                p1.y = winMax.y;
-                                std::cout << "4 : " << p1.x << "," << p1.y << "," << p2.x << "," << p2.y << std::endl;
+                                p1.setCoords(p1.getx(), winMax.gety());
+//                                std::cout << "4 : " << p1.getx() << "," << p1.gety() << "," << p2.getx() << "," << p2.gety() << std::endl;
                             }
                         }
                     }
@@ -137,6 +134,9 @@ void lineClipCohSuth (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
     }
     
     if(plotLine)
-        lineBres(round(p1.x), round(p1.y), round(p2.x), round(p2.y));
+    {
+        lineBres(round(p1.getx()), round(p1.gety()), round(p2.getx()), round(p2.gety()));
+        std::cout << "cohsuth : " << p1.getx() << "," << p1.gety() << "," << p2.getx() << "," << p2.gety() << std::endl;
+    }
 }
 
