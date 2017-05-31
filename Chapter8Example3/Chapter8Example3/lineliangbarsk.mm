@@ -81,7 +81,7 @@ void lineClipLiangBarsk(wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
                         p1.setCoords(p1.getx() + u1 * dx, p1.gety() + u1 * dy);
                     }
                     lineBres(round(p1.getx()), round(p1.gety()), round(p2.getx()), round(p2.gety()));
-                    std::cout << "liangbarsk : " << u1 << "," << u2 << "," << p2.getx() << "," << p2.gety() << std::endl;
+                    std::cout << "liangbarsk : " << u1 << "," << u2 << std::endl;
                     std::cout << "liangbarsk : " << p1.getx() << "," << p1.gety() << "," << p2.getx() << "," << p2.gety() << std::endl;
                 }
             }
