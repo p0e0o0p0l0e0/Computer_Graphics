@@ -11,6 +11,7 @@
 #include <iostream>
 #include "linebres.h"
 #include "linecohsuth.h"
+#include "lineliangbarsk.h"
 
 const GLdouble PI = 3.1416;
 const GLdouble delta = - PI / 100;
@@ -62,10 +63,11 @@ void displayFcn (void)
     p0.setCoords(p0.getx() * cosDelta - p0.gety() * sinDelta, p0.getx() * sinDelta + p0.gety() * cosDelta);
     p1.setCoords(p1.getx() * cosDelta - p1.gety() * sinDelta, p1.getx() * sinDelta + p1.gety() * cosDelta);
     
-    glColor3f(1.0, 1.0, 0.0);
+    glColor3f(1.0, 0.0, 0.0);
     lineBres(round(p0.getx()), round(p0.gety()), round(p1.getx()), round(p1.gety()));
     glColor3f(0.0, 1.0, 1.0);
-    lineClipCohSuth(winMin, winMax, p0, p1);
+//    lineClipCohSuth(winMin, winMax, p0, p1);
+    lineClipLiangBarsk(winMin, winMax, p0, p1);
     
     glutSwapBuffers();
 }
