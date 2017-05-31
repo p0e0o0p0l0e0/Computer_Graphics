@@ -13,8 +13,10 @@
 #include "linecohsuth.h"
 
 const GLdouble PI = 3.1416;
-GLdouble theta = 0.0;
 const GLdouble delta = - PI / 100;
+GLint initialized = 0;
+GLdouble cosDelta, sinDelta;
+wcPt2D p0, p1, winMin, winMax;
 
 void init (void)
 {
@@ -42,38 +44,30 @@ void displayFcn (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    glLoadIdentity();
     clippingWindow();
     
     glColor3f(1.0, 1.0, 1.0);
     
-    wcPt2D winMin, winMax;
-    winMin.setCoords(-50, -50);
-    winMax.setCoords(50, 50);
+    if(!initialized)
+    {
+        initialized = 1;
+        cosDelta = cos(delta);
+        sinDelta = sin(delta);
+        winMin.setCoords(-50, -50);
+        winMax.setCoords(50, 50);
+        p0.setCoords(-100, 0);
+        p1.setCoords(100, 0);
+    }
     
-    wcPt2D p0, p1;
-    p0.setCoords(-100, 0);
-    p1.setCoords(100, 0);
-    
-    wcPt2D p00, p01;
-    p00.setCoords(p0.getx() * cos(theta) - p0.gety() * sin(theta), p0.getx() * sin(theta) + p0.gety() * cos(theta));
-    p01.setCoords(p1.getx() * cos(theta) - p1.gety() * sin(theta), p1.getx() * sin(theta) + p1.gety() * cos(theta));
-    
-//    std::cout << "p00 : " << p00.getx() << "," << p00.gety() << std::endl;
-//    std::cout << "p01 : " << p01.getx() << "," << p01.gety() << std::endl;
+    p0.setCoords(p0.getx() * cosDelta - p0.gety() * sinDelta, p0.getx() * sinDelta + p0.gety() * cosDelta);
+    p1.setCoords(p1.getx() * cosDelta - p1.gety() * sinDelta, p1.getx() * sinDelta + p1.gety() * cosDelta);
     
     glColor3f(1.0, 1.0, 0.0);
-    lineBres(round(p00.getx()), round(p00.gety()), round(p01.getx()), round(p01.gety()));
+    lineBres(round(p0.getx()), round(p0.gety()), round(p1.getx()), round(p1.gety()));
     glColor3f(0.0, 1.0, 1.0);
-    lineClipCohSuth(winMin, winMax, p00, p01);
+    lineClipCohSuth(winMin, winMax, p0, p1);
     
     glutSwapBuffers();
-}
-
-void idleFcn (void)
-{
-    theta += delta;
-    displayFcn();
 }
 
 int main(int argc, char * argv[]) {
@@ -86,7 +80,7 @@ int main(int argc, char * argv[]) {
     
     init();
     glutDisplayFunc(displayFcn);
-    glutIdleFunc(idleFcn);
+    glutIdleFunc(displayFcn);
     
     glutMainLoop();
     
