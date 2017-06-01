@@ -183,7 +183,43 @@ void lineClipNLN (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
                 }
                 else // 有一个点在裁剪区域外角落的情况，这里的L、T情况已经在第一个if里包含
                 {
-                    
+                    slopeWith4Vertexes(winMin, winMax, p1);
+                    if(p1.getx() != p2.getx())
+                    {
+                        m = (p2.gety() - p1.gety()) / (p2.getx() - p1.getx());
+                    }
+                    if(m > m3 || m < m1)
+                    {
+                        std::cout << "3 rejected line!" << std::endl;
+                    }
+                    else
+                    {
+                        plotLine = true;
+                        if(m <= m3 && m >= m4)
+                        {
+                            p2.setCoords(winMax.getx(), p1.gety() + m * (winMax.getx() - p1.getx()));
+                            if(m2 > m4 && m <= m2)
+                            {//LR
+                                p1.setCoords(winMin.getx(), p1.gety() + m * (winMin.getx() - p1.getx()));
+                            }
+                            else
+                            {//TR
+                                p1.setCoords(p1.getx() + (winMax.gety() - p1.gety())/m, winMax.gety());
+                            }
+                        }
+                        else if(m < m4 && m >= m1)
+                        {
+                            p2.setCoords(p1.getx() + (winMin.gety() - p1.gety())/m, winMin.gety());
+                            if(m2 < m4 && m >= m2)
+                            {//TB
+                                p1.setCoords(p1.getx() + (winMax.gety() - p1.gety())/m, winMax.gety());
+                            }
+                            else
+                            {//LB
+                                p1.setCoords(winMin.getx(), p1.gety() + m * (winMin.getx() - p1.getx()));
+                            }
+                        }
+                    }
                 }
             }
         }
