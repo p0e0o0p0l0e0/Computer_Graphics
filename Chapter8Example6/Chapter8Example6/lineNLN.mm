@@ -181,8 +181,15 @@ void lineClipNLN (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
                         plotLine = true;
                     }
                 }
-                else // 有一个点在裁剪区域外角落的情况，这里的L、T情况已经在第一个if里包含
+                else if(code1 == (winLeftBitCode | winTopBitCode) || code2 == (winLeftBitCode | winTopBitCode))
+                    // 有一个点在裁剪区域外左上角的情况，这里的L、T情况已经在第一个if里包含
                 {
+                    if(code1 != (winLeftBitCode | winTopBitCode))
+                    {
+                        swapPts(&p1, &p2);
+                        swapCode(&code1, &code2);
+                    }
+                    
                     slopeWith4Vertexes(winMin, winMax, p1);
                     if(p1.getx() != p2.getx())
                     {
