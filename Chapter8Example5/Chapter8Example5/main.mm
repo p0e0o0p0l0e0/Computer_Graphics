@@ -25,8 +25,6 @@ void init (void)
     
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(-100, 100, -100, 100);
-    
-    glMatrixMode(GL_MODELVIEW);
 }
 
 void clippingWindow (void)
