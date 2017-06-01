@@ -1,0 +1,150 @@
+//
+//  lineNLN.mm
+//  Chapter8Example6
+//
+//  Created by 张琳琪 on 2017/6/1.
+//  Copyright © 2017年 张琳琪. All rights reserved.
+//
+
+#include <GLUT/GLUT.h>
+#include <iostream>
+#include "lineNLN.h"
+#include "linebres.h"
+
+GLfloat m1, m2, m3, m4;
+
+const GLint winLeftBitCode = 0x1; // 直接为1也没问题
+const GLint winRightBitCode = 0x2;
+const GLint winBottomBitCode = 0x4;
+const GLint winTopBitCode = 0x8;
+
+inline GLint inside (GLint code)
+{
+    return GLint (!(code));
+}
+inline GLint reject (GLint code1, GLint code2)
+{
+    return GLint (code1 & code2);
+}
+inline GLint accept (GLint code1, GLint code2)
+{
+    return GLint (!(code1 | code2));
+}
+
+GLubyte encode (wcPt2D pt, wcPt2D winMin, wcPt2D winMax)
+{
+    GLubyte code = 0x00;
+    
+    if(pt.getx() < winMin.getx())
+        code = code | winLeftBitCode;
+    if(pt.getx() > winMax.getx())
+        code = code | winRightBitCode;
+    if(pt.gety() < winMin.gety())
+        code = code | winBottomBitCode;
+    if(pt.gety() > winMax.gety())
+        code = code | winTopBitCode;
+    
+    return code;
+}
+
+void swapPts (wcPt2D * p1, wcPt2D * p2)
+{
+    wcPt2D tmp;
+    tmp = * p1; * p1 = * p2; * p2 = tmp;
+}
+
+void swapCode (GLubyte * c1, GLubyte * c2)
+{
+    GLubyte tmp;
+    tmp = * c1; * c1 = * c2; * c2 = tmp;
+}
+
+void slopeWith4Vertexes (wcPt2D winMin, wcPt2D winMax, wcPt2D p1)
+{
+    m1 = (p1.gety() - winMin.gety()) / (p1.getx() - winMin.getx());
+    m2 = (p1.gety() - winMax.gety()) / (p1.getx() - winMin.getx());
+    m3 = (p1.gety() - winMax.gety()) / (p1.getx() - winMax.getx());
+    m4 = (p1.gety() - winMin.gety()) / (p1.getx() - winMax.getx());
+    
+//    std::cout << "slope : m1 : " << m1 << " m2 : " << m2 << " m3 : " << m3 << " m4 : " << m4 << std::endl;
+}
+
+void lineClipNLN (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
+{
+    
+    GLubyte code1, code2;
+    GLint plotLine = false;
+    GLfloat m = 0.0;
+    
+    code1 = encode(p1, winMin, winMax);
+    code2 = encode(p2, winMin, winMax);
+    if(accept(code1, code2))
+    {
+        plotLine = true;
+    }
+    else
+    {
+        if(reject(code1, code2))
+        {
+            std::cout << "rejected line!" << std::endl;
+        }
+        else
+        {
+            if(inside(code1) || inside(code2))
+            {
+                if(!inside(code1))
+                {
+                    swapPts(&p1, &p2);
+                    swapCode(&code1, &code2);
+                }
+                slopeWith4Vertexes(winMin, winMax, p1);
+                
+                if(p1.getx() != p2.getx())
+                {
+                    m = (p2.gety() - p1.gety()) / (p2.getx() - p1.getx());
+                
+                    if(m <= m1 && m >= m2 && (code2 & winLeftBitCode))
+                    {
+                        p2.setCoords(winMin.getx(), p1.gety() + m * (winMin.getx() - p1.getx()));
+                    }
+                    else if(m <= m3 && m >= m4 && (code2 & winRightBitCode))
+                    {
+                        p2.setCoords(winMax.getx(), p1.gety() + m * (winMax.getx() - p1.getx()));
+                    }
+                    else if((m > m3 || m < m2) && (code2 & winTopBitCode))
+                    {
+                        p2.setCoords(p1.getx() + (winMax.gety() - p1.gety())/m, winMax.gety());
+                    }
+                    else if((m > m1 || m < m4) && (code2 & winBottomBitCode))
+                    {
+                        p2.setCoords(p1.getx() + (winMin.gety() - p1.gety())/m, winMin.gety());
+                    }
+                }
+                else
+                {
+                    if(p2.gety() > winMax.gety())
+                    {
+                        p2.setCoords(p2.getx(), winMax.gety());
+                    }
+                    else
+                    {
+                        p2.setCoords(p2.getx(), winMin.gety());
+                    }
+                }
+                plotLine = true;
+            }
+            else
+            {
+                
+            }
+        }
+    }
+    if(plotLine)
+    {
+        lineBres(round(p1.getx()), round(p1.gety()), round(p2.getx()), round(p2.gety()));
+    }
+}
+
+
+
+
