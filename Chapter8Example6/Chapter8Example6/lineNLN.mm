@@ -93,51 +93,61 @@ void lineClipNLN (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
             // 有一个点在裁剪区域内
             if(inside(code1) || inside(code2))
             {
+                plotLine = true;
                 if(!inside(code1))
                 {
                     swapPts(&p1, &p2);
                     swapCode(&code1, &code2);
                 }
-                slopeWith4Vertexes(winMin, winMax, p1);
-                
-                if(p1.getx() != p2.getx())
+                wcPt2D topLeft, bottomRight;
+                topLeft.setCoords(winMin.getx(), winMax.gety());
+                bottomRight.setCoords(winMax.getx(), winMin.gety());
+                if(p1.equals(winMin) || p1.equals(winMax) || p1.equals(topLeft) || p1.equals(bottomRight))
                 {
-                    m = (p2.gety() - p1.gety()) / (p2.getx() - p1.getx());
-                
-                    if(m <= m1 && m >= m2 && (code2 & winLeftBitCode))
-                    {//L
-                        p2.setCoords(winMin.getx(), p1.gety() + m * (winMin.getx() - p1.getx()));
-                    }
-                    else if(m <= m3 && m >= m4 && (code2 & winRightBitCode))
-                    {//R
-                        p2.setCoords(winMax.getx(), p1.gety() + m * (winMax.getx() - p1.getx()));
-                    }
-                    else if((m > m3 || m < m2) && (code2 & winTopBitCode))
-                    {//T
-                        p2.setCoords(p1.getx() + (winMax.gety() - p1.gety())/m, winMax.gety());
-                    }
-                    else if((m > m1 || m < m4) && (code2 & winBottomBitCode))
-                    {//B
-                        p2.setCoords(p1.getx() + (winMin.gety() - p1.gety())/m, winMin.gety());
-                    }
+                    p2.setCoords(p1.getx(), p1.gety());
                 }
                 else
                 {
-                    if(p2.gety() > winMax.gety())
+                    slopeWith4Vertexes(winMin, winMax, p1);
+                    
+                    if(p1.getx() != p2.getx())
                     {
-                        p2.setCoords(p2.getx(), winMax.gety());
+                        m = (p2.gety() - p1.gety()) / (p2.getx() - p1.getx());
+                    
+                        if(m <= m1 && m >= m2 && (code2 & winLeftBitCode))
+                        {//L
+                            p2.setCoords(winMin.getx(), p1.gety() + m * (winMin.getx() - p1.getx()));
+                        }
+                        else if(m <= m3 && m >= m4 && (code2 & winRightBitCode))
+                        {//R
+                            p2.setCoords(winMax.getx(), p1.gety() + m * (winMax.getx() - p1.getx()));
+                        }
+                        else if((m > m3 || m < m2) && (code2 & winTopBitCode))
+                        {//T
+                            p2.setCoords(p1.getx() + (winMax.gety() - p1.gety())/m, winMax.gety());
+                        }
+                        else if((m > m1 || m < m4) && (code2 & winBottomBitCode))
+                        {//B
+                            p2.setCoords(p1.getx() + (winMin.gety() - p1.gety())/m, winMin.gety());
+                        }
                     }
                     else
                     {
-                        p2.setCoords(p2.getx(), winMin.gety());
+                        if(p2.gety() > winMax.gety())
+                        {
+                            p2.setCoords(p2.getx(), winMax.gety());
+                        }
+                        else
+                        {
+                            p2.setCoords(p2.getx(), winMin.gety());
+                        }
                     }
                 }
-                plotLine = true;
             }
             else
             {
-                // 有一个点的区域码是0001，即在裁剪区域正左侧，L的情况在上一个if中包含，这里只会有LT，LR，LB和rejected的情况
                 if(code1 == 0x01 || code2 == 0x01)
+                // 有一个点的区域码是0001，即在裁剪区域正左侧，L的情况在上一个if中包含，这里只会有LT，LR，LB和rejected的情况
                 {
                     if(code1 != 0x01)
                     {
@@ -149,7 +159,7 @@ void lineClipNLN (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
                     {
                         m = (p2.gety() - p1.gety()) / (p2.getx() - p1.getx());
                     }
-                    if(m < m1 || m > m2 || p2.getx() < p1.getx())
+                    if(m < m1 || m > m2)
                     {
                         std::cout << "2 rejected line!" << std::endl;
                     }
@@ -170,6 +180,10 @@ void lineClipNLN (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
                         }
                         plotLine = true;
                     }
+                }
+                else // 有一个点在裁剪区域外角落的情况，这里的L、T情况已经在第一个if里包含
+                {
+                    
                 }
             }
         }

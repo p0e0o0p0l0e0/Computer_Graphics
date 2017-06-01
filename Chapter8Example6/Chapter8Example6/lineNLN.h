@@ -33,6 +33,14 @@ public:
     {
         return y;
     }
+    GLint equals (wcPt2D p)
+    {
+        if(x == p.getx() && y == p.gety())
+        {
+            return 1;
+        }
+        return 0;
+    }
 };
 
 void lineClipNLN(wcPt2D, wcPt2D, wcPt2D, wcPt2D);
