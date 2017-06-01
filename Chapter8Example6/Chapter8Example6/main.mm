@@ -14,7 +14,7 @@ void init (void)
 {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-300, 300, -150, 150);
+    gluOrtho2D(-300, 300, -300, 300);
 }
 
 void clippingWindow (wcPt2D winMin, wcPt2D winMax)
@@ -48,7 +48,7 @@ void displayFcn (void)
     clippingWindow(winMin, winMax);
     
     
-//    // p01 is in the clipping area
+//    // 在裁剪区域内
 //    wcPt2D p01, p02, p03, p04, p05, p06, p07, p08;
 //    p01.setCoords(-25, 25);
 //    p02.setCoords(-250, 50);    // L
@@ -66,7 +66,7 @@ void displayFcn (void)
 //    lineBresAndNLN(winMin, winMax, p01, p06);
 //    lineBresAndNLN(winMin, winMax, p07, p08);
 //    
-//    // p11 is on the left of the clipping area
+//    // 在正左侧
 //    wcPt2D p11, p12, p13, p14, p15, p16;
 //    p11.setCoords(-225, 0);
 //    p12.setCoords(-190, 150);   //2 rejected line
@@ -82,26 +82,66 @@ void displayFcn (void)
 //    lineBresAndNLN(winMin, winMax, p11, p16);
     
     
-    // p21 is on the left of the clipping area
-    wcPt2D p21, p22, p23, p24;
-    p21.setCoords(-210, 130);
-    p22.setCoords(230, 25);     //TR
-    p23.setCoords(100, -130);   //TB
-    p24.setCoords(-190, -130);  //LB
+//    // 在左上角
+//    wcPt2D p21, p22, p23, p24;
+//    p21.setCoords(-210, 130);
+//    p22.setCoords(230, 25);     //TR
+//    p23.setCoords(100, -130);   //TB
+//    p24.setCoords(-190, -130);  //LB
+//
+//    lineBresAndNLN(winMin, winMax, p21, p22);
+//    lineBresAndNLN(winMin, winMax, p21, p23);
+//    lineBresAndNLN(winMin, winMax, p21, p24);
+//
+//    wcPt2D p31, p32, p33, p34;
+//    p31.setCoords(-250, 110);
+//    p32.setCoords(230, 25);     //TR
+//    p33.setCoords(220, -90);    //LR
+//    p34.setCoords(-190, -130);  //LB
+//    
+//    lineBresAndNLN(winMin, winMax, p31, p32);
+//    lineBresAndNLN(winMin, winMax, p31, p33);
+//    lineBresAndNLN(winMin, winMax, p31, p34);
+//    
+//    // 在左下角
+//    wcPt2D p21, p22, p23, p24;
+//    p21.setCoords(-210, -130);
+//    p22.setCoords(230, -25);   //RB
+//    p23.setCoords(100, 130);   //TB
+//    p24.setCoords(-190, 130);  //LT
+//    
+//    lineBresAndNLN(winMin, winMax, p21, p22);
+//    lineBresAndNLN(winMin, winMax, p21, p23);
+//    lineBresAndNLN(winMin, winMax, p21, p24);
+//    
+//    // 在正下方
+//    wcPt2D p11, p12, p13, p14, p15;
+//    p11.setCoords(-50, -125);
+//    p12.setCoords(-210, 120);   //LB
+//    p13.setCoords(-50, 150);    //TB
+//    p14.setCoords(100, 150);    //TB
+//    p15.setCoords(250, 50);     //RB
+//
+//    lineBresAndNLN(winMin, winMax, p11, p12);
+//    lineBresAndNLN(winMin, winMax, p11, p13);
+//    lineBresAndNLN(winMin, winMax, p11, p14);
+//    lineBresAndNLN(winMin, winMax, p11, p15);
+    
+    
+    // 在正左侧
+    wcPt2D p11, p12, p13, p14, p15, p16;
+    p11.setCoords(225, 0);
+    p12.setCoords(190, 150);   //2 rejected line
+    p13.setCoords(180, 110);   //LT
+    p14.setCoords(-225, 0);      //LR
+    p15.setCoords(180, -120);  //LB
+    p16.setCoords(225, 100);   //1 rejected line
 
-    lineBresAndNLN(winMin, winMax, p21, p22);
-    lineBresAndNLN(winMin, winMax, p21, p23);
-    lineBresAndNLN(winMin, winMax, p21, p24);
-    
-    wcPt2D p31, p32, p33, p34;
-    p31.setCoords(-250, 110);
-    p32.setCoords(230, 25);     //TR
-    p33.setCoords(220, -90);   //LR
-    p34.setCoords(-190, -130);  //LB
-    
-    lineBresAndNLN(winMin, winMax, p31, p32);
-    lineBresAndNLN(winMin, winMax, p31, p33);
-    lineBresAndNLN(winMin, winMax, p31, p34);
+    lineBresAndNLN(winMin, winMax, p11, p12);
+    lineBresAndNLN(winMin, winMax, p11, p13);
+    lineBresAndNLN(winMin, winMax, p11, p14);
+    lineBresAndNLN(winMin, winMax, p11, p15);
+    lineBresAndNLN(winMin, winMax, p11, p16);
     
     glFlush();
 }
@@ -109,7 +149,7 @@ void displayFcn (void)
 int main(int argc, char * argv[]) {
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
-    glutInitWindowSize(600, 300);
+    glutInitWindowSize(600, 600);
     glutInitWindowPosition(-50, 50);
     glutCreateWindow("Exercise 8.12");
     
