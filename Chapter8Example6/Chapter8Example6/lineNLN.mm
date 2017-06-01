@@ -112,8 +112,6 @@ void matrix3x3Premultiply (Matrix3x3 m1, Matrix3x3 m2)
 
 void rotate2D (wcPt2D pivotPt, GLfloat theta)
 {
-    delta += theta;
-    
     matrix3x3SetIdentity(matRotate);
     
     matRotate[0][0] = cos(theta);
@@ -313,9 +311,33 @@ void lineClipNLN (wcPt2D winMin, wcPt2D winMax, wcPt2D p1, wcPt2D p2)
                     }
                     else
                     {
-                        // 绕中心点每次逆时针旋转90°
                         center.setCoords((winMin.getx() + winMax.getx())/2, (winMin.gety() + winMax.gety())/2);
-                        rotate2D(center, pi/2);
+                        
+                        if(code1 == (winLeftBitCode | winBottomBitCode) || code2 == (winLeftBitCode | winBottomBitCode))
+                        {//LB
+                            delta = -pi/2;
+                        }
+                        else if(code1 == winBottomBitCode || code2 == winBottomBitCode)
+                        {//B
+                            delta = -pi/2;
+                        }
+                        else if(code1 == (winBottomBitCode | winRightBitCode) || code2 == (winBottomBitCode | winRightBitCode))
+                        {//BR
+                            delta = pi;
+                        }
+                        else if(code1 == winRightBitCode || code2 == winRightBitCode)
+                        {//R
+                            delta = pi;
+                        }
+                        else if(code1 == (winRightBitCode | winTopBitCode) || code2 == (winRightBitCode | winTopBitCode))
+                        {//TR
+                            delta = pi/2;
+                        }
+                        else if(code1 == winTopBitCode || code2 == winTopBitCode)
+                        {//T
+                            delta = pi/2;
+                        }
+                        rotate2D(center, delta);
                         transformVerts2D(&p1);
                         transformVerts2D(&p2);
                         transformVerts2D(&winMin);

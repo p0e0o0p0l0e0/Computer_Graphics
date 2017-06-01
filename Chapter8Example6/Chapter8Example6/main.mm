@@ -65,7 +65,7 @@ void displayFcn (void)
 //    lineBresAndNLN(winMin, winMax, p01, p05);
 //    lineBresAndNLN(winMin, winMax, p01, p06);
 //    lineBresAndNLN(winMin, winMax, p07, p08);
-//    
+//
 //    // 在正左侧
 //    wcPt2D p11, p12, p13, p14, p15, p16;
 //    p11.setCoords(-225, 0);
@@ -113,7 +113,7 @@ void displayFcn (void)
 //    lineBresAndNLN(winMin, winMax, p21, p22);
 //    lineBresAndNLN(winMin, winMax, p21, p23);
 //    lineBresAndNLN(winMin, winMax, p21, p24);
-//    
+//
 //    // 在正下方
 //    wcPt2D p11, p12, p13, p14, p15;
 //    p11.setCoords(-50, -125);
@@ -127,8 +127,7 @@ void displayFcn (void)
 //    lineBresAndNLN(winMin, winMax, p11, p14);
 //    lineBresAndNLN(winMin, winMax, p11, p15);
     
-    
-    // 在正左侧
+    // 在正右侧
     wcPt2D p11, p12, p13, p14, p15, p16;
     p11.setCoords(225, 0);
     p12.setCoords(190, 150);   //2 rejected line
