@@ -47,18 +47,36 @@ void displayFcn (void)
     winMax.setCoords(200, 100);
     clippingWindow(winMin, winMax);
     
-    wcPt2D p1, p2, p3, p4, p5;
     
-    p1.setCoords(-25, 25);
-    p2.setCoords(-250, 50);
-    p3.setCoords(-25, 125);
-    p4.setCoords(225, 25);
-    p5.setCoords(245, -125);
+    // p01 is in the clipping area
+    wcPt2D p01, p02, p03, p04, p05, p06;
+    p01.setCoords(-25, 25);
+    p02.setCoords(-250, 50);    // L
+    p03.setCoords(-25, 125);    // T
+    p04.setCoords(225, 25);     // R
+    p05.setCoords(245, -135);   // B
+    p06.setCoords(-25, -50);    // inside
     
-    lineBresAndNLN(winMin, winMax, p1, p2);
-    lineBresAndNLN(winMin, winMax, p1, p3);
-    lineBresAndNLN(winMin, winMax, p1, p4);
-    lineBresAndNLN(winMin, winMax, p1, p5);
+    lineBresAndNLN(winMin, winMax, p01, p02);
+    lineBresAndNLN(winMin, winMax, p01, p03);
+    lineBresAndNLN(winMin, winMax, p01, p04);
+    lineBresAndNLN(winMin, winMax, p01, p05);
+    lineBresAndNLN(winMin, winMax, p01, p06);
+    
+    // p11 is on the left of the clipping area
+    wcPt2D p11, p12, p13, p14, p15, p16;
+    p11.setCoords(-225, 0);
+    p12.setCoords(-250, 0);     //2 rejected line
+    p13.setCoords(-180, 110);   //LT
+    p14.setCoords(225, 0);      //LR
+    p15.setCoords(-180, -120);  //LB
+    p16.setCoords(-225, 100);  //1 rejected line
+    
+    lineBresAndNLN(winMin, winMax, p11, p12);
+    lineBresAndNLN(winMin, winMax, p11, p13);
+    lineBresAndNLN(winMin, winMax, p11, p14);
+    lineBresAndNLN(winMin, winMax, p11, p15);
+    lineBresAndNLN(winMin, winMax, p11, p16);
     
     glFlush();
 }
