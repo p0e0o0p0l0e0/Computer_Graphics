@@ -18,8 +18,7 @@ void init (void)
 {
     glClearColor(0.0, 0.0, 0.0, 1.0);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-20.0, 20.0, -20.0, 20.0);
-    
+    glOrtho(-20.0, 20.0, -20.0, 20.0, -10.0, 10.0);
 }
 
 void rotate3D (wcPt3D p1, wcPt3D p2, GLfloat thetaDegrees)
@@ -89,7 +88,7 @@ void displayFcn (void)
     triangle(verts);
     
     GLfloat sx = -1.5, sy = -1.5, sz = 1.0;
-    GLfloat tx = 1.0, ty = 1.0, tz = 1.0; // why z > 1 cannot see the new triangle?
+    GLfloat tx = 1.0, ty = 1.0, tz = 5.0; // why z > 1 cannot see the new triangle?
     GLfloat angle = 90; // 角度
     wcPt3D p1, p2;
     p1 = {0.0, 0.0, 0.0};
