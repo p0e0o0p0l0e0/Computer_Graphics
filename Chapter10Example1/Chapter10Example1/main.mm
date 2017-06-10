@@ -22,6 +22,7 @@ GLfloat sin1 = sin(radianAngle);
 typedef GLint vertex3 [3];
 vertex3 pt [8] = {{0, 0, 0}, {0, 100, 0}, {100, 0, 0}, {100, 100, 0},
                 {0, 0, 100}, {0, 100, 100}, {100, 0, 100}, {100, 100, 100}};
+const double parameters [4] = {-1, -1, 1, 150};
 
 void init (void)
 {
@@ -69,7 +70,12 @@ void displayFcn (void)
     glPolygonMode(GL_BACK, GL_LINE);
 //    glFrontFace(GL_CW); // show the back
     
+    glClipPlane(GL_CLIP_PLANE0, parameters);
+    glEnable(GL_CLIP_PLANE0);
+    
     cube();
+    
+    glDisable(GL_CLIP_PLANE0);
     
     glutSwapBuffers();
 }
