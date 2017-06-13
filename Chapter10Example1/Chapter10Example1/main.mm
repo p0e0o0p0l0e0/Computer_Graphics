@@ -33,6 +33,10 @@ void init (void)
     
     glMatrixMode(GL_PROJECTION);
     glFrustum(xwMin, xwMax, ywMin, ywMax, dnear, dfar);
+    
+    
+    void cube();
+    cube();
 }
 
 void quad (GLint n1, GLint n2, GLint n3, GLint n4)
@@ -45,8 +49,13 @@ void quad (GLint n1, GLint n2, GLint n3, GLint n4)
     glEnd();
 }
 
+GLuint regHex;
+
 void cube ()
 {
+    regHex = glGenLists(1);
+    glNewList(regHex, GL_COMPILE);
+    
     glColor3f(0.0, 1.0, 0.0); // back
     quad(0, 2, 3, 1);
     glColor3f(1.0, 0.0, 0.0); // left
@@ -59,6 +68,8 @@ void cube ()
     quad(2, 6, 7, 3);
     glColor3f(1.0, 0.0, 1.0); // bottom
     quad(0, 4, 6, 2);
+    
+    glEndList();
 }
 
 void displayFcn (void)
@@ -73,7 +84,8 @@ void displayFcn (void)
     glClipPlane(GL_CLIP_PLANE0, parameters);
     glEnable(GL_CLIP_PLANE0);
     
-    cube();
+//    cube();
+    glCallList(regHex);
     
     glDisable(GL_CLIP_PLANE0);
     
@@ -102,7 +114,8 @@ void idleFcn (void)
     glLoadIdentity();
     gluLookAt(x0, y00, z0, xref, yref, zref, Vx, Vy, Vz);
     
-    displayFcn();
+//    displayFcn();
+    glutPostRedisplay();
 }
 
 int main(int argc, char * argv[])
