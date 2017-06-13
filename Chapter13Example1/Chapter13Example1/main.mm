@@ -18,7 +18,6 @@ void displayWirePolyhedra (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    glLoadIdentity();
     glColor3f(0.0, 0.0, 1.0);
     
     gluLookAt(5.0, 5.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0);
@@ -48,9 +47,11 @@ void winReshapeFcn (GLint newWidth, GLint newHeight)
     glViewport(0, 0, newWidth, newHeight);
     
     glMatrixMode(GL_PROJECTION);
+    glLoadIdentity(); // 其实这上下3行可以放在init中，不必每次在窗口刷新时调用。
     glFrustum(-1.0, 1.0, -1.0, 1.0, 2.0, 20.0);
     
     glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
     
     glClear(GL_COLOR_BUFFER_BIT);
 }
