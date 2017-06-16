@@ -101,8 +101,6 @@ void displayFcn (void)
 void winReshapeFcn (GLint newWidth, GLint newHeight)
 {
     glViewport(0, 0, newWidth, newHeight);
-    
-    glutPostRedisplay();
 }
 
 int main(int argc, char * argv[])
