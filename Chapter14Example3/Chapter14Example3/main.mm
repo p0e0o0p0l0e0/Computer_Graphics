@@ -36,20 +36,27 @@ void displayFcn (void)
     
     glMap2f(GL_MAP2_VERTEX_3, 0.0, 1.0, 3, 4, 0.0, 1.0, 12, 4, &ctrlPts[0][0][0]);
     glEnable(GL_MAP2_VERTEX_3);
-    GLint k, j;
+    
+//    GLint k, j;
+//    glColor3f(0.0, 0.0, 1.0);
+//    for (k = 0; k <= 8; k++) {
+//        glBegin(GL_LINE_STRIP);
+//        for (j = 0; j <= 40; j++) {
+//            glEvalCoord2f(GLfloat(j)/40.0, GLfloat(k)/8.0);
+//        }
+//        glEnd();
+//        glBegin(GL_LINE_STRIP);
+//        for (j = 0; j <= 40; j++) {
+//            glEvalCoord2f(GLfloat(k)/8.0, GLfloat(j)/40.0);
+//        }
+//        glEnd();
+//    }
+
     glColor3f(0.0, 0.0, 1.0);
-    for (k = 0; k <= 8; k++) {
-        glBegin(GL_LINE_STRIP);
-        for (j = 0; j <= 40; j++) {
-            glEvalCoord2f(GLfloat(j)/40.0, GLfloat(k)/8.0);
-        }
-        glEnd();
-        glBegin(GL_LINE_STRIP);
-        for (j = 0; j <= 40; j++) {
-            glEvalCoord2f(GLfloat(k)/8.0, GLfloat(j)/40.0);
-        }
-        glEnd();
-    }
+    glMapGrid2f(8, 0.0, 1.0, 8, 0.0, 1.0);
+    glEvalMesh2(GL_LINE, 0, 8, 0, 8);
+    
+    glDisable(GL_MAP2_VERTEX_3);
     
     glFlush();
 }
