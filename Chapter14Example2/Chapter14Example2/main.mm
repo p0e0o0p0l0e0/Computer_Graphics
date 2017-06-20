@@ -22,7 +22,7 @@ void displayFcn (void)
 {
     glClear(GL_COLOR_BUFFER_BIT);
     
-    GLfloat ctrlPts [4][3] = {{-40.0, -40.0}, {-10.0, 200.0}, {10.0, -200.0}, {40.0, 40.0}};
+    GLfloat ctrlPts [4][3] = {{-40.0, -40.0, 0.0}, {-10.0, 200.0, 0.0}, {10.0, -200.0, 0.0}, {40.0, 40.0, 0.0}};
     glMap1f(GL_MAP1_VERTEX_3, uMin, uMax, 3, 4, *ctrlPts);
     glEnable(GL_MAP1_VERTEX_3);
     
