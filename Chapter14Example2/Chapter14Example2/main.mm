@@ -26,15 +26,19 @@ void displayFcn (void)
     glMap1f(GL_MAP1_VERTEX_3, uMin, uMax, 3, 4, *ctrlPts);
     glEnable(GL_MAP1_VERTEX_3);
     
-    GLint k;
-    GLfloat step, uValue;
-    step = (uMax - uMin) / 50;
     glColor3f(0.0, 0.0, 1.0);
-    glBegin(GL_LINE_STRIP);
-    for (uValue = uMin; uValue <= uMax; uValue += step) {
-        glEvalCoord1f(uValue);
-    }
-    glEnd();
+    GLint k;
+//    GLfloat step, uValue;
+//    step = (uMax - uMin) / 50;
+//    glBegin(GL_LINE_STRIP);
+//    for (uValue = uMin; uValue <= uMax; uValue += step) {
+//        glEvalCoord1f(uValue);
+//    }
+//    glEnd();
+    glMapGrid1f(50, uMin, uMax); // 把u区间分成50份
+    glEvalMesh1(GL_LINE, 0, 40); // 可以只画一部分曲线u=0到u=40
+    glColor3f(0.0, 1.0, 0.0);
+    glEvalMesh1(GL_LINE, 40, 50);
     
     glColor3f(1.0, 0.0, 0.0);
     glPointSize(5.0);
