@@ -53,8 +53,18 @@ void displayFcn (void)
 //    }
 
     glColor3f(0.0, 0.0, 1.0);
-    glMapGrid2f(8, 0.0, 1.0, 8, 0.0, 1.0);
-    glEvalMesh2(GL_LINE, 0, 8, 0, 8);
+//    glMapGrid2f(8, 0.0, 1.0, 8, 0.0, 1.0);
+//    glEvalMesh2(GL_LINE, 0, 8, 0, 8);
+    
+    for(int k = 0; k < 8; k++)
+    {
+        glBegin(GL_QUAD_STRIP);
+        for (int j = 0; j < 8; j++) {
+            glEvalCoord2f(GLfloat(k) / 8, GLfloat(j) / 8);
+            glEvalCoord2f(GLfloat(k+1) / 8, GLfloat(j) / 8);
+        }
+        glEnd();
+    }
     
     glDisable(GL_MAP2_VERTEX_3);
     
