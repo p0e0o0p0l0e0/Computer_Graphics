@@ -72,15 +72,10 @@ void winReshapeFcn (int newWidth, int newHeight)
 }
 
 GLuint vertShader, fragShader;
+GLuint program;
 
-int main(int argc, char * argv[]) {
-    
-    glutInit(&argc, argv);
-    glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
-    glutInitWindowPosition(50, 50);
-    glutInitWindowSize(500, 500);
-    glutCreateWindow("load shader file");
-    
+void SetShaderProgram (void)
+{
     vertShader = glCreateShader(GL_VERTEX_SHADER);
     fragShader = glCreateShader(GL_FRAGMENT_SHADER);
     
@@ -125,7 +120,52 @@ int main(int argc, char * argv[]) {
         exit(EXIT_FAILURE);
     }
     
+    GLuint program;
+    program = glCreateProgram();
     
+    glAttachShader(program, vertShader);
+    glAttachShader(program, fragShader);
+    
+    glLinkProgram(program);
+    
+    glGetProgramiv(vertShader, GL_LINK_STATUS, &status);
+    if(status != GL_TRUE)
+    {
+        fputs("Error when linking shader program\n", stderr);
+        exit(EXIT_FAILURE);
+    }
+    
+    GLint length;
+    GLsizei num;
+    char *log;
+    
+    glGetShaderiv(vertShader, GL_INFO_LOG_LENGTH, &length);
+    if(length > 0)
+    {
+        log = (char *)malloc(sizeof(char) * length);
+        glGetShaderInfoLog(vertShader, length, &num, log);
+        fprintf(stderr, "%s\n", log);
+    }
+    
+    glGetProgramiv(program, GL_INFO_LOG_LENGTH, &length);
+    if(length > 0)
+    {
+        log = (char *)malloc(sizeof(char) * length);
+        glGetProgramInfoLog(program, length, &num, log);
+        fprintf(stderr, "%s\n", log);
+    }
+}
+
+int main(int argc, char * argv[]) {
+    
+    glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
+    glutInitWindowPosition(50, 50);
+    glutInitWindowSize(500, 500);
+    glutCreateWindow("load shader file");
+    
+    SetShaderProgram();
+    glUseProgram(program);
     
     init();
     glutDisplayFunc(displayFcn);
